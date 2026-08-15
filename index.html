@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HPdle</title>
   <style>
+    @font-face {
+      font-family: 'HPfont';
+      src: url('HPfont.TTF') format('truetype');
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -23,6 +28,7 @@
     }
 
     h1 {
+      font-family: 'HPfont', Georgia, serif;
       font-size: 2.4rem;
       color: #c9a84c;
       letter-spacing: 5px;
@@ -274,15 +280,15 @@ const CHARACTERS = [
   { name: "Molly Weasley",         gender: "Female",  roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Philosopher's Stone" },
   { name: "Arthur Weasley",        gender: "Male",    roles: ["Ministry Official","Order of the Phoenix"], species: ["Human"],    firstAppearance: "Philosopher's Stone" },
   { name: "Percy Weasley",         gender: "Male",    roles: ["Ministry Official","Student"],         species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Sirius Black",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Prisoner of Azkaban" },
+  { name: "Sirius Black",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human","Animagus"], firstAppearance: "Prisoner of Azkaban" },
   { name: "Remus Lupin",           gender: "Male",    roles: ["Order of the Phoenix","Hogwarts Staff"], species: ["Human","Werewolf"], firstAppearance: "Prisoner of Azkaban" },
-  { name: "Peter Pettigrew",       gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Prisoner of Azkaban" },
+  { name: "Peter Pettigrew",       gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human","Animagus"], firstAppearance: "Prisoner of Azkaban" },
   { name: "Bellatrix Lestrange",   gender: "Female",  roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Goblet of Fire" },
   { name: "Lucius Malfoy",         gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Chamber of Secrets" },
   { name: "Narcissa Malfoy",       gender: "Female",  roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Goblet of Fire" },
   { name: "Fenrir Greyback",       gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human","Werewolf"], firstAppearance: "Half-Blood Prince" },
   { name: "Dolores Umbridge",      gender: "Female",  roles: ["Ministry Official","Hogwarts Staff"],  species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "Minerva McGonagall",    gender: "Female",  roles: ["Hogwarts Staff","Order of the Phoenix"], species: ["Human"],        firstAppearance: "Philosopher's Stone" },
+  { name: "Minerva McGonagall",    gender: "Female",  roles: ["Hogwarts Staff","Order of the Phoenix"], species: ["Human","Animagus"], firstAppearance: "Philosopher's Stone" },
   { name: "Filius Flitwick",       gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone" },
   { name: "Pomona Sprout",         gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone" },
   { name: "Gilderoy Lockhart",     gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Chamber of Secrets" },
@@ -296,7 +302,7 @@ const CHARACTERS = [
   { name: "Alastor Moody",         gender: "Male",    roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Goblet of Fire" },
   { name: "Nymphadora Tonks",      gender: "Female",  roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Order of the Phoenix" },
   { name: "Kingsley Shacklebolt",  gender: "Male",    roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "James Potter",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Philosopher's Stone" },
+  { name: "James Potter",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human","Animagus"], firstAppearance: "Philosopher's Stone" },
   { name: "Lily Potter",           gender: "Female",  roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Philosopher's Stone" },
   { name: "Bill Weasley",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Goblet of Fire" },
   { name: "Charlie Weasley",       gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Goblet of Fire" },
@@ -322,7 +328,7 @@ const CHARACTERS = [
   { name: "Barty Crouch Jr.",      gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Goblet of Fire" },
   { name: "Barty Crouch Sr.",      gender: "Male",    roles: ["Ministry Official"],                   species: ["Human"],          firstAppearance: "Goblet of Fire" },
   { name: "Cornelius Fudge",       gender: "Male",    roles: ["Ministry Official"],                   species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Rita Skeeter",          gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Goblet of Fire" },
+  { name: "Rita Skeeter",          gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human","Animagus"], firstAppearance: "Goblet of Fire" },
   { name: "Xenophilius Lovegood",  gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Deathly Hallows" },
   { name: "Aberforth Dumbledore",  gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Order of the Phoenix" },
   { name: "Garrick Ollivander",    gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Philosopher's Stone" },
@@ -349,7 +355,7 @@ const CHARACTERS = [
   { name: "Peeves",                gender: "Male",    roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone" },
   { name: "Sorting Hat",           gender: "Unknown", roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone" },
   { name: "Nagini",                gender: "Female",  roles: ["Dark Side","Pet"],                     species: ["Creature/Animal"], firstAppearance: "Goblet of Fire" },
-  { name: "Scabbers",              gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone" },
+  { name: "Scabbers",              gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal","Animagus"], firstAppearance: "Philosopher's Stone" },
   { name: "Crookshanks",           gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Prisoner of Azkaban" },
   { name: "Hedwig",                gender: "Female",  roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone" },
   { name: "Errol",                 gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Chamber of Secrets" },
@@ -374,12 +380,29 @@ const BOOK_ORDER = [
 ];
 
 // ─── Daily target ─────────────────────────────────────────────────────────────
+function seededRNG(seed) {
+  let s = seed >>> 0;
+  return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 0x100000000; };
+}
+
+function buildShuffledOrder(n, seed) {
+  const rng = seededRNG(seed);
+  const arr = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const DAILY_ORDER = buildShuffledOrder(CHARACTERS.length, 0xC0FFEE42);
+
 function getDailyTarget() {
   const EPOCH = new Date('2026-08-12');
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const day = Math.floor((today - EPOCH) / 86400000);
-  return CHARACTERS[((day % CHARACTERS.length) + CHARACTERS.length) % CHARACTERS.length];
+  return CHARACTERS[DAILY_ORDER[((day % CHARACTERS.length) + CHARACTERS.length) % CHARACTERS.length]];
 }
 
 const TARGET = getDailyTarget();
@@ -525,7 +548,7 @@ function submitGuess() {
   selectedName = null;
   list.classList.remove('visible');
 
-  if (res.gender === 'green' && res.roles === 'green' && res.species === 'green' && res.book.color === 'green') {
+  if (char.name === TARGET.name) {
     won = true;
     const banner = document.getElementById('win-banner');
     const n = guesses.length;
