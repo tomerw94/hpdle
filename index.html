@@ -139,6 +139,7 @@
     }
 
     #win-banner p { color: #81c784; font-size: 0.95rem; }
+    #win-stats { font-size: 0.82rem; opacity: 0.85; margin-top: 4px; }
 
     /* ── Guess count ── */
     .guess-count {
@@ -233,6 +234,7 @@
   <div id="win-banner">
     <h2>&#127881; Correct!</h2>
     <p id="win-message"></p>
+    <p id="win-stats"></p>
   </div>
 
   <div class="search-area">
@@ -262,7 +264,23 @@
 
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+// TODO: replace with your Firebase project's web config (Firebase console → Project settings → Your apps).
+// These values are not secret — access is controlled by Firestore security rules, not by hiding this object.
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 const CHARACTERS = [
   { name: "Harry Potter",          gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
@@ -397,10 +415,22 @@ function buildShuffledOrder(n, seed) {
 
 const DAILY_ORDER = buildShuffledOrder(CHARACTERS.length, 0xC0FFEE42);
 
+function getLocalToday() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function todayKey(d = getLocalToday()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 function getDailyTarget() {
   const EPOCH = new Date('2026-08-12');
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = getLocalToday();
   const day = Math.floor((today - EPOCH) / 86400000);
   return CHARACTERS[DAILY_ORDER[((day % CHARACTERS.length) + CHARACTERS.length) % CHARACTERS.length]];
 }
@@ -412,6 +442,7 @@ const guesses = [];
 let selectedName = null;
 let activeIdx = -1;
 let won = false;
+let statsRecorded = false;
 
 // ─── Comparison ───────────────────────────────────────────────────────────────
 function setsEqual(a, b) {
@@ -468,6 +499,101 @@ function updateCount() {
   const el = document.getElementById('guess-count');
   const n = guesses.length;
   el.textContent = n > 0 ? `${n} guess${n === 1 ? '' : 'es'} so far` : '';
+}
+
+function showWinBanner(n) {
+  const banner = document.getElementById('win-banner');
+  document.getElementById('win-message').textContent =
+    `You found ${TARGET.name} in ${n} guess${n === 1 ? '' : 'es'}!`;
+  banner.classList.add('visible');
+  input.disabled = true;
+  document.getElementById('guess-btn').disabled = true;
+}
+
+// ─── Persistence ──────────────────────────────────────────────────────────────
+function storageKey() {
+  return 'hpdle_progress_' + todayKey();
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(storageKey());
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(storageKey(), JSON.stringify({
+      guesses: guesses.map(g => g.name),
+      won,
+      statsRecorded
+    }));
+  } catch (e) {
+    // localStorage unavailable/throwing (e.g. Safari private mode) — degrade to in-memory-only
+  }
+}
+
+function restoreProgress() {
+  const data = loadProgress();
+  if (!data || !Array.isArray(data.guesses)) return;
+
+  data.guesses.forEach(name => {
+    const char = CHARACTERS.find(c => c.name === name);
+    if (!char) return;
+    if (guesses.find(g => g.name === char.name)) return;
+    const res = compare(char);
+    guesses.push(char);
+    renderRow(char, res);
+  });
+  updateCount();
+
+  if (data.won && guesses.length) {
+    won = true;
+    showWinBanner(guesses.length);
+    statsRecorded = !!data.statsRecorded;
+    if (!statsRecorded) {
+      recordWinStats(guesses.length);
+    } else {
+      displayDailyStats();
+    }
+  }
+}
+
+// ─── Daily stats (Firebase) ───────────────────────────────────────────────────
+function statsDocRef() {
+  return doc(db, 'dailyStats', todayKey());
+}
+
+async function recordWinStats(n) {
+  try {
+    await setDoc(statsDocRef(), {
+      solvedCount: increment(1),
+      totalGuesses: increment(n)
+    }, { merge: true });
+    statsRecorded = true;
+    saveProgress();
+  } catch (e) {
+    // write failed (offline/network/rules) — statsRecorded stays false, retried on next load
+  }
+  displayDailyStats();
+}
+
+async function displayDailyStats() {
+  const el = document.getElementById('win-stats');
+  if (!el) return;
+  try {
+    const snap = await getDoc(statsDocRef());
+    if (!snap.exists()) { el.textContent = ''; return; }
+    const { solvedCount, totalGuesses } = snap.data();
+    if (!solvedCount) { el.textContent = ''; return; }
+    const avg = (totalGuesses / solvedCount).toFixed(1);
+    el.textContent = `${solvedCount} ${solvedCount === 1 ? 'person has' : 'people have'} solved today's puzzle so far, averaging ${avg} guesses.`;
+  } catch (e) {
+    el.textContent = '';
+  }
 }
 
 // ─── Autocomplete ─────────────────────────────────────────────────────────────
@@ -550,13 +676,13 @@ function submitGuess() {
 
   if (char.name === TARGET.name) {
     won = true;
-    const banner = document.getElementById('win-banner');
-    const n = guesses.length;
-    document.getElementById('win-message').textContent =
-      `You found ${TARGET.name} in ${n} guess${n === 1 ? '' : 'es'}!`;
-    banner.classList.add('visible');
-    input.disabled = true;
-    document.getElementById('guess-btn').disabled = true;
+    showWinBanner(guesses.length);
+  }
+
+  saveProgress();
+
+  if (won) {
+    recordWinStats(guesses.length);
   }
 }
 
@@ -567,6 +693,8 @@ document.getElementById('guess-btn').addEventListener('click', () => {
   }
   submitGuess();
 });
+
+restoreProgress();
 </script>
 
 </body>
