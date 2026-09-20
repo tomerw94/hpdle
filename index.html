@@ -209,6 +209,128 @@
 
     .arrow { margin-left: 4px; font-size: 1rem; }
 
+    /* ── Stage-advance button (win banner) ── */
+    .stage-btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 22px;
+      background: #c9a84c;
+      color: #0d0d1f;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .stage-btn:hover { background: #dfc06a; }
+    .stage-btn:active { transform: scale(0.97); }
+
+    /* ── Stage 2: Spell Challenge ── */
+    #stage2 {
+      display: none;
+      max-width: 960px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background: #14142a;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+    }
+
+    #stage2.visible { display: block; }
+
+    .stage2-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #2a2a4a;
+      padding-bottom: 10px;
+    }
+
+    .stage2-header h2 {
+      color: #c9a84c;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+
+    .stage2-progress { color: #7a7a9a; font-size: 0.85rem; }
+
+    .stage2-difficulty {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      background: #2a2a55;
+      color: #b0b0d8;
+    }
+
+    .stage2-difficulty.Easy   { background: #1b4a1f; color: #a5d6a7; }
+    .stage2-difficulty.Medium { background: #4a2a00; color: #ffcc80; }
+    .stage2-difficulty.Hard   { background: #3a0f0f; color: #ef9a9a; }
+
+    .stage2-prompt {
+      font-size: 1.15rem;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .stage2-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .stage2-option {
+      padding: 12px 14px;
+      background: #1a1a35;
+      border: 1px solid #3a3a6a;
+      border-radius: 6px;
+      color: #e8e0cc;
+      font-size: 0.92rem;
+      font-family: inherit;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .stage2-option:hover:not(:disabled) { border-color: #c9a84c; }
+    .stage2-option:disabled { cursor: not-allowed; opacity: 0.75; }
+    .stage2-option.correct { background: #1b4a1f; border-color: #4caf50; color: #a5d6a7; opacity: 1; }
+    .stage2-option.wrong   { background: #3a0f0f; border-color: #b71c1c; color: #ef9a9a; opacity: 1; }
+
+    .spell-card {
+      background: #1a1a35;
+      border: 1px solid #3a3a6a;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+
+    .spell-card h4 { color: #c9a84c; font-size: 1.05rem; margin-bottom: 6px; }
+    .spell-card p { font-size: 0.88rem; margin-top: 6px; line-height: 1.4; color: #cfc9b8; }
+    .spell-card p strong { color: #9a9ac0; }
+
+    #stage2-result { display: none; }
+    #stage2-result.visible { display: block; }
+    #stage2-result h3 { font-size: 1.15rem; margin-bottom: 10px; }
+    #stage2-result h3.win { color: #66bb6a; }
+    #stage2-result h3.lose { color: #ef9a9a; }
+
+    #stage2-summary { display: none; text-align: center; }
+    #stage2-summary.visible { display: block; }
+    #stage2-summary h3 { color: #c9a84c; font-size: 1.2rem; margin-bottom: 8px; }
+    #stage2-summary p { font-size: 0.92rem; color: #b0b0d8; margin-top: 4px; }
+    #stage2-summary p.summary-headline { margin-top: 16px; color: #e8e0cc; font-size: 0.98rem; }
+    #stage2-summary p.summary-substat { font-size: 0.82rem; opacity: 0.85; }
+    #stage2-summary-tomorrow { margin-top: 18px; padding-top: 14px; border-top: 1px solid #2a2a4a; color: #c9a84c; font-size: 0.95rem; }
+
     /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #181830; }
@@ -219,6 +341,7 @@
       tbody td { padding: 7px 6px; font-size: 0.78rem; }
       tbody td:first-child { min-width: 100px; font-size: 0.78rem; }
       #guess-btn { padding: 12px 14px; }
+      .stage2-options { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -232,9 +355,10 @@
 <div class="game-area">
 
   <div id="win-banner">
-    <h2>&#127881; Correct!</h2>
+    <h2>🧙‍♂️ Correct!</h2>
     <p id="win-message"></p>
     <p id="win-stats"></p>
+    <button id="stage2-start-btn" class="stage-btn" style="display:none;">Continue to Spell Challenge &rarr;</button>
   </div>
 
   <div class="search-area">
@@ -262,6 +386,34 @@
     </table>
   </div>
 
+</div>
+
+<div id="stage2">
+  <div class="stage2-header">
+    <h2>&#10024; Spell Challenge</h2>
+    <div class="stage2-progress" id="stage2-progress"></div>
+  </div>
+
+  <div id="stage2-question">
+    <span class="stage2-difficulty" id="stage2-difficulty-label"></span>
+    <p class="stage2-prompt" id="stage2-prompt"></p>
+    <div class="stage2-options" id="stage2-options"></div>
+  </div>
+
+  <div id="stage2-result">
+    <h3 id="stage2-result-title"></h3>
+    <div class="spell-card" id="stage2-spell-card"></div>
+    <button id="stage2-next-btn" class="stage-btn"></button>
+  </div>
+
+  <div id="stage2-summary">
+    <h3>🧙‍♂️ Challenge complete!</h3>
+    <p id="stage2-summary-character" class="summary-headline" style="margin-top:0;"></p>
+    <p id="stage2-summary-character-stats" class="summary-substat"></p>
+    <p id="stage2-summary-score" class="summary-headline"></p>
+    <p id="stage2-summary-stats" class="summary-substat"></p>
+    <p id="stage2-summary-tomorrow"></p>
+  </div>
 </div>
 
 <script type="module">
@@ -397,6 +549,118 @@ const BOOK_ORDER = [
   "Deathly Hallows"
 ];
 
+const SPELLS = [
+  { name: 'Door-Opening Spell', pronunciation: 'Aberto', description: 'A spell used to open locked doors.', seen: 'Used by Queenie Goldstein in 1926 to open the door to Percival Graves\'s office at MACUSA.', difficulty: 'Hard' },
+  { name: 'Summoning Charm', pronunciation: 'Accio', description: 'Brings an object directly to the caster, even over long distances.', seen: 'Used extensively throughout the series; famously used by Harry Potter in 1994 during the Triwizard Tournament to summon his Firebolt.', difficulty: 'Medium' },
+  { name: 'Age Line', pronunciation: 'Age Line', description: 'Creates a thin golden line on the floor that prevents anyone under a certain age from crossing.', seen: 'Cast by Albus Dumbledore in 1994 around the Goblet of Fire to prevent underage students from entering.', difficulty: 'Medium' },
+  { name: 'Water-Making Spell', pronunciation: 'Aguamenti', description: 'Produces a jet or stream of clean, drinkable water from the wand tip.', seen: 'Used by Harry Potter in 1997 to attempt to fill Dumbledore\'s goblet in the Crystal Cave, and to douse Hagrid\'s burning hut.', difficulty: 'Easy' },
+  { name: 'Ascension Spell', pronunciation: 'Alarte Ascendare', description: 'Shoots the target high up into the air.', seen: 'Used by Gilderoy Lockhart in 1992 during the Duelling Club to send a snake flying into the air.', difficulty: 'Medium' },
+  { name: 'Unlocking Charm', pronunciation: 'Alohomora', description: 'Unlocks and opens doors, windows, and padlocks that are not heavily protected by dark magic.', seen: 'Used by Hermione Granger in 1991 to open the locked door on the third-floor corridor at Hogwarts.', difficulty: 'Easy' },
+  { name: 'Airway-Clearing Spell', pronunciation: 'Anapneo', description: 'Clears the target\'s airway if they are choking on food or an object.', seen: 'Cast by Horace Slughorn in 1996 on Marcus Belby when he began choking on a pheasant leg aboard the Hogwarts Express.', difficulty: 'Hard' },
+  { name: 'Antler Growth Hex', pronunciation: 'Anteoculatia', description: 'A hex that turns the victim\'s hair into antlers.', seen: 'Mentioned in 1996 when Pansy Parkinson missed lessons due to growing antlers.', difficulty: 'Hard' },
+  { name: 'Anti-Cheating Spell', pronunciation: 'Anti-Cheating Spell', description: 'Prevents students from cheating while taking exams.', seen: 'Cast on parchment and quills before exams at Hogwarts by teachers such as Minerva McGonagall.', difficulty: 'Medium' },
+  { name: 'Revealing Charm', pronunciation: 'Aparecium', description: 'Forces invisible ink or hidden writing to become visible.', seen: 'Used by Hermione Granger in 1993 on Tom Riddle\'s diary in an effort to reveal hidden text.', difficulty: 'Medium' },
+  { name: 'Tracking Spell', pronunciation: 'Appare Vestigium', description: 'Illuminates recent magical activity and footprints in gold light.', seen: 'Cast by Newt Scamander in 1927 in Paris to track Tina Goldstein and Credence Barebone.', difficulty: 'Hard' },
+  { name: 'Apparition', pronunciation: 'Apparate / Disapparate', description: 'Magical method of transportation allowing the caster to instantaneously travel to a destination.', seen: 'Used frequently by adult witches and wizards throughout the wizarding world.', difficulty: 'Easy' },
+  { name: 'Water Spout Spell', pronunciation: 'Aqua Erupto', description: 'Creates a large, powerful jet of water from the wand tip.', seen: 'Used in various Harry Potter video games and combat scenarios to extinguish large fires.', difficulty: 'Hard' },
+  { name: 'Spider-Repelling Spell', pronunciation: 'Arania Exumai', description: 'Blasts away giant spiders and acromantulas.', seen: 'Used by Harry Potter in 1993 in the Forbidden Forest to fend off Aragog\'s offspring.', difficulty: 'Medium' },
+  { name: 'Slowing Charm', pronunciation: 'Arresto Momentum', description: 'Decreases the velocity of a moving object or falling person.', seen: 'Used by Albus Dumbledore in 1993 to save Harry Potter when he fell off his broom during a Quidditch match.', difficulty: 'Medium' },
+  { name: 'Propulsion Charm', pronunciation: 'Ascendio', description: 'Lifts the caster high into the air.', seen: 'Used by Harry Potter in 1995 during the Second Task of the Triwizard Tournament to launch out of the Black Lake.', difficulty: 'Medium' },
+  { name: 'Killing Curse', pronunciation: 'Avada Kedavra', description: 'Causes instantaneous, painless death. One of the Unforgivable Curses.', seen: 'Famously used by Lord Voldemort in 1981 against James and Lily Potter, and cast on Harry Potter who survived it.', difficulty: 'Easy' },
+  { name: 'Bird Transfiguration Spell', pronunciation: 'Avifors', description: 'Transforms inanimate objects or small creatures into a flock of birds.', seen: 'Featured in Transfiguration lessons at Hogwarts and various spellbooks.', difficulty: 'Hard' },
+  { name: 'Bird-Conjuring Charm', pronunciation: 'Avis', description: 'Conjures a flock of small, chirping birds from the tip of the wand.', seen: 'Cast by Ollivander in 1994 during the Weighing of the Wands, and by Hermione Granger in 1996.', difficulty: 'Medium' },
+  { name: 'Bat-Bogey Hex', pronunciation: 'Bat-Bogey Hex', description: 'Transforms the target\'s snot into terrifying bats that fly out of their nose and attack them.', seen: 'A signature spell cast frequently by Ginny Weasley, notably on Zacharias Smith on the Hogwarts Express.', difficulty: 'Medium' },
+  { name: 'White Light Spell', pronunciation: 'Baubillious', description: 'Produces a bright bolt of white light or lightning from the wand tip.', seen: 'Mentioned in spellbooks as a basic offensive spell.', difficulty: 'Hard' },
+  { name: 'Exploding Charm', pronunciation: 'Bombarda', description: 'Creates a small explosion that blows open solid doors, locks, or walls.', seen: 'Cast by Hermione Granger in 1994 to break Sirius Black out of his prison cell in the West Tower.', difficulty: 'Easy' },
+  { name: 'Great Exploding Charm', pronunciation: 'Bombarda Maxima', description: 'An intensified version of Bombarda that creates a devastating, large explosion.', seen: 'Used by Dolores Umbridge in 1995 to breach the hidden wall of the Room of Requirement.', difficulty: 'Easy' },
+  { name: 'Bone-Healing Spell', pronunciation: 'Brackium Emendo', description: 'Intended to heal a broken bone, but if cast improperly removes the bones entirely.', seen: 'Cast by Gilderoy Lockhart in 1992 on Harry Potter\'s broken arm, removing all 33 bones from his arm.', difficulty: 'Medium' },
+  { name: 'Hair-Loss Curse', pronunciation: 'Calvorio', description: 'Removes all hair from the target, leaving them bald.', seen: 'Taught in defensive magic classes and listed in dark magic hex guides.', difficulty: 'Hard' },
+  { name: 'Singing Jinx', pronunciation: 'Cantis', description: 'Forces the victim to burst into uncontrollable song.', seen: 'Used in various Hogwarts dueling situations and prank books.', difficulty: 'Hard' },
+  { name: 'Undetectable Extension Charm', pronunciation: 'Capacious Extremis', description: 'Expands the internal dimensions of a container without changing its outside appearance.', seen: 'Cast by Hermione Granger in 1997 on her beaded handbag to store supplies during the hunt for Horcruxes.', difficulty: 'Hard' },
+  { name: 'Caterwauling Charm', pronunciation: 'Caterwauling Charm', description: 'Sets off a loud, high-pitched alarm siren when an unauthorized person enters a protected area.', seen: 'Cast by Death Eaters in Hogsmeade in 1998 to detect Harry Potter when he apparated into the village.', difficulty: 'Hard' },
+  { name: 'Intruder Warning Charm', pronunciation: 'Cave Inimicum', description: 'Alerts the caster when enemies enter the boundary of a campsite or area.', seen: 'Used by Hermione Granger and Harry Potter in 1997 to protect their tent during the Horcrux hunt.', difficulty: 'Hard' },
+  { name: 'Cheering Charm', pronunciation: 'Cheering Charm', description: 'Causes the target to become happy and contented, though overuse causes hysterical laughter.', seen: 'Taught by Professor Flitwick to third-year students in 1994.', difficulty: 'Medium' },
+  { name: 'Rotation Spell', pronunciation: 'Circumrota', description: 'Rotates or spins objects around rapidly.', seen: 'Cast by Corvus Lestrange in French records room archives.', difficulty: 'Hard' },
+  { name: 'Chest-Opening Spell', pronunciation: 'Cistem Aperio', description: 'Opens locked chests, boxes, or trunks with a burst of force.', seen: 'Used by Tom Riddle in a flashback in 1943 to open Rubeus Hagrid\'s trunk containing Aragog.', difficulty: 'Medium' },
+  { name: 'Locking Spell', pronunciation: 'Colloportus', description: 'Magically locks a door so it cannot be opened manually, producing an audible squelching sound.', seen: 'Cast by Hermione Granger in 1996 in the Department of Mysteries to hold off Death Eaters.', difficulty: 'Medium' },
+  { name: 'Stickfast Hex', pronunciation: 'Colloshoo', description: 'Glues the victim\'s shoes firmly to the ground.', seen: 'Mentioned in spellbooks and used by Hogwarts students during duels.', difficulty: 'Hard' },
+  { name: 'Colour-Change Charm', pronunciation: 'Colovaria', description: 'Changes the color of an object or animal.', seen: 'Taught during OWLs Transfiguration classes at Hogwarts.', difficulty: 'Hard' },
+  { name: 'Blasting Curse', pronunciation: 'Confringo', description: 'Causes anything it strikes to burst violently into flame and explode.', seen: 'Used by Harry Potter in 1997 to blast off the sidecar of Hagrid\'s motorbike, and by Hermione in Bathilda Bagshot\'s house.', difficulty: 'Medium' },
+  { name: 'Confundus Charm', pronunciation: 'Confundo', description: 'Causes the target to become thoroughly confused, forgetful, or susceptible to direction.', seen: 'Cast by Hermione Granger in 1996 on Cormac McLaggen during Quidditch keeper tryouts.', difficulty: 'Medium' },
+  { name: 'Cruciatus Curse', pronunciation: 'Crucio', description: 'Inflicts excruciating, unbearable physical pain. One of the Unforgivable Curses.', seen: 'Used by Bellatrix Lestrange, Lord Voldemort, and cast by Harry Potter on Bellatrix and Amycus Carrow.', difficulty: 'Easy' },
+  { name: 'Gouging Spell', pronunciation: 'Defodio', description: 'Digs out materials, stone, earth, and wood with force.', seen: 'Used by Harry, Ron, and Hermione in 1998 to dig their way out of Gringotts dungeons on a dragon.', difficulty: 'Hard' },
+  { name: 'Erase Spell', pronunciation: 'Deletrius', description: 'Disintegrates or erases the shadow image left behind by the Prior Incantato spell.', seen: 'Cast by Amos Diggory in 1994 at the Quidditch World Cup campsite after testing Harry\'s wand.', difficulty: 'Hard' },
+  { name: 'Teeth-Growing Hex', pronunciation: 'Densaugeo', description: 'Causes the victim\'s front teeth to grow rapidly at an alarming rate.', seen: 'Cast by Draco Malfoy in 1994; accidentally hit Hermione Granger, causing her front teeth to grow past her chin.', difficulty: 'Hard' },
+  { name: 'Pressure Blasting Spell', pronunciation: 'Deprimo', description: 'Applies immense downward pressure, shattering holes in floors, roofs, or obstacles.', seen: 'Used by Hermione Granger in 1997 to blast a hole through the floor of the Lovegood house.', difficulty: 'Hard' },
+  { name: 'Banishing Charm', pronunciation: 'Depulso', description: 'Sends objects or targets flying away from the caster (the opposite of Accio).', seen: 'Taught in fourth-year Charms classes at Hogwarts; used frequently in dueling.', difficulty: 'Medium' },
+  { name: 'Lowering Spell', pronunciation: 'Descendo', description: 'Causes targeted objects or structures to lower or collapse downward.', seen: 'Cast by Crabbe in 1998 in the Room of Requirement to bring down a giant stack of furniture.', difficulty: 'Hard' },
+  { name: 'Severing Charm', pronunciation: 'Diffindo', description: 'Precisely cuts or tears physical objects such as cloth, rope, or plants.', seen: 'Used by Harry Potter in 1994 to cut Cedric Diggory\'s bag strap, and in 1996 to swap covers on potions books.', difficulty: 'Medium' },
+  { name: 'Shrinking Charm', pronunciation: 'Diminuendo', description: 'Forces a targeted object or creature to shrink in size.', seen: 'Taught by Harry Potter to the Dumbledore\'s Army members in 1995.', difficulty: 'Medium' },
+  { name: 'Secret Opening Spell', pronunciation: 'Dissendium', description: 'Opens specific secret passages or concealed hidden doors.', seen: 'Used by Harry Potter in 1993 to open the hump of the one-eyed witch statue leading to Honeydukes.', difficulty: 'Medium' },
+  { name: 'Dragon Transfiguration Spell', pronunciation: 'Draconifors', description: 'Transforms small dragon statues into real, fire-breathing miniature dragons.', seen: 'Taught in Hogwarts Transfiguration classes.', difficulty: 'Hard' },
+  { name: 'Hardening Charm', pronunciation: 'Duro', description: 'Transforms soft objects or materials into solid stone.', seen: 'Cast by Hermione Granger in 1998 during the Battle of Hogwarts to turn a tapestry into solid stone.', difficulty: 'Hard' },
+  { name: 'Bubble Head Jinx', pronunciation: 'Ebublio', description: 'Causes the target to become trapped inside a giant, unbreakable bubble.', seen: 'Used in various magical duels and Hogwarts charm classes.', difficulty: 'Hard' },
+  { name: 'Engorgement Charm', pronunciation: 'Engorgio', description: 'Causes targeted objects or living beings to swell rapidly in size.', seen: 'Used by Barty Crouch Jr. (disguised as Moody) in 1994 to enlarge a spider before demonstrating Unforgivable Curses.', difficulty: 'Easy' },
+  { name: 'Healing Charm', pronunciation: 'Episkey', description: 'Heals minor injuries, such as broken noses, cuts, and minor fractures.', seen: 'Cast by Nymphadora Tonks (and Luna Lovegood in film) in 1996 to fix Harry\'s broken nose on the Hogwarts Express.', difficulty: 'Medium' },
+  { name: 'Binding/Fusing Spell', pronunciation: 'Epoximise', description: 'Fuses two objects together as if they were glued.', seen: 'Featured in various magical crafting spellbooks.', difficulty: 'Hard' },
+  { name: 'Erecting Spell', pronunciation: 'Erecto', description: 'Erects structures, tents, or poles automatically from a collapsed or folded state.', seen: 'Cast by Hermione Granger in 1997 to set up their tent during the search for Horcruxes.', difficulty: 'Hard' },
+  { name: 'Vanishing Spell', pronunciation: 'Evanesco', description: 'Causes targeted objects to vanish completely into non-being.', seen: 'Used by Severus Snape and Bill Weasley to vanish potion remnants and secret order documents.', difficulty: 'Easy' },
+  { name: 'Throwing Jinx', pronunciation: 'Everte Statum', description: 'Throws the victim backward in mid-air and causes them to lose their balance.', seen: 'Cast by Draco Malfoy against Harry Potter in 1992 during the Duelling Club.', difficulty: 'Medium' },
+  { name: 'Patronus Charm', pronunciation: 'Expecto Patronum', description: 'Conjures a silvery spirit animal embodiment of positive feelings to ward off Dementors.', seen: 'Famously cast by Harry Potter in 1993 at the Black Lake to save Sirius Black and himself from hundreds of Dementors.', difficulty: 'Easy' },
+  { name: 'Disarming Charm', pronunciation: 'Expelliarmus', description: 'Forces the victim to release whatever wand or item they are holding.', seen: 'Harry Potter\'s signature spell; used in 1998 during the final duel to defeat Lord Voldemort.', difficulty: 'Easy' },
+  { name: 'Explosive Pressure Jinx', pronunciation: 'Expulso', description: 'Causes an object or surface to explode with sudden, violent pressure.', seen: 'Used by a Death Eater in 1997 in the Luchino Caffe to destroy the table Harry and Hermione were behind.', difficulty: 'Medium' },
+  { name: 'Bandage/Splint Spell', pronunciation: 'Ferula', description: 'Conjures clean bandages and wooden splints to bind a broken limb.', seen: 'Cast by Remus Lupin in 1994 to wrap Ron Weasley\'s broken leg in the Shrieking Shack.', difficulty: 'Hard' },
+  { name: 'Fiendfyre', pronunciation: 'Fiendfyre', description: 'Summons a uncontrollable, roaring dark fire that takes the form of beasts and destroys everything.', seen: 'Cast by Crabbe in 1998 in the Room of Requirement, which destroyed Ravenclaw\'s Diadem Horcrux.', difficulty: 'Hard' },
+  { name: 'General Counter-Spell', pronunciation: 'Finite Incantatem', description: 'Stops ongoing spell effects and general incantations in the vicinity.', seen: 'Used by Severus Snape in 1992 to end chaotic spells during the Duelling Club, and by Hermione Granger.', difficulty: 'Easy' },
+  { name: 'Fire-Marking Spell', pronunciation: 'Flagrate', description: 'Allows the caster to draw glowing fiery lines or marks in mid-air or on surfaces.', seen: 'Used by Hermione Granger in 1996 to mark doors in the Department of Mysteries with fiery X\'s.', difficulty: 'Hard' },
+  { name: 'Knockback Jinx', pronunciation: 'Flipendo', description: 'Pushes targeted objects or opponents backward with force.', seen: 'A foundational spell featured heavily throughout Hogwarts training and Harry Potter video games.', difficulty: 'Medium' },
+  { name: 'Pimple Jinx', pronunciation: 'Furnunculus', description: 'Covers the victim\'s skin in painful boils and pimples.', seen: 'Cast by Harry Potter in 1994 on the Hogwarts Express, hitting Gregory Goyle.', difficulty: 'Hard' },
+  { name: 'Doubling Charm', pronunciation: 'Geminio', description: 'Duplicates an object, creating an exact replica.', seen: 'Cast by Hermione Granger in 1997 to duplicate Slytherin\'s Locket, and used as a vault defense in Gringotts.', difficulty: 'Hard' },
+  { name: 'Staircase-Sliding Spell', pronunciation: 'Glisseo', description: 'Flattens the steps of a staircase into a smooth, slippery slide.', seen: 'Used by Hermione Granger in 1998 to turn the stairs in Hogwarts into a slide to escape Death Eaters.', difficulty: 'Medium' },
+  { name: 'Vanishing Cabinet Binding Spell', pronunciation: 'Harmonia Nectere Passus', description: 'Spell used to bind and activate a pair of Vanishing Cabinets.', seen: 'Chanted repeatedly by Draco Malfoy in 1996–1997 in the Room of Requirement to repair the Vanishing Cabinet.', difficulty: 'Hard' },
+  { name: 'Human-Presence-Revealing Spell', pronunciation: 'Homenum Revelio', description: 'Detects human presence nearby, revealing the location of hidden or invisible people.', seen: 'Used by Hermione Granger in 1997 at Grimmauld Place, and by Death Eaters at the Lovegood home.', difficulty: 'Hard' },
+  { name: 'Impediment Jinx', pronunciation: 'Impedimenta', description: 'Slows down, stops, or trips an approaching attacker or object.', seen: 'Used by Harry Potter extensively in 1995 during the Third Task of the Triwizard Tournament.', difficulty: 'Medium' },
+  { name: 'Imperius Curse', pronunciation: 'Imperio', description: 'Places the victim under total, hypnotic control of the caster. One of the Unforgivable Curses.', seen: 'Used by Harry Potter in 1998 on Bogrod the goblin and Travers to break into Gringotts.', difficulty: 'Easy' },
+  { name: 'Impervius Charm', pronunciation: 'Impervius', description: 'Makes an object completely repellent to water, mist, and rain.', seen: 'Cast by Hermione Granger in 1993 on Harry Potter\'s glasses during a torrential Quidditch match.', difficulty: 'Medium' },
+  { name: 'Binding Spell', pronunciation: 'Incarcerous', description: 'Conjures thick ropes or chains from the wand tip to bind a target securely.', seen: 'Cast by Dolores Umbridge in 1996 in the Forbidden Forest against Magorian the centaur.', difficulty: 'Medium' },
+  { name: 'Fire-Making Spell', pronunciation: 'Incendio', description: 'Produces fire.', seen: 'It was used in 1994 by Arthur Weasley to create a fire in the Dursleys\' hearth so that he could use Floo Powder there.', difficulty: 'Medium' },
+  { name: 'Cloak-Igniting Spell', pronunciation: 'Lacarnum Inflamari', description: 'Shoots a small fireball or flame from the wand to ignite garments.', seen: 'Cast by Hermione Granger in 1991 to set Severus Snape\'s cloak on fire during the Quidditch match.', difficulty: 'Medium' },
+  { name: 'Tongue-Tying Spell', pronunciation: 'Langlock', description: 'Glues the target\'s tongue to the roof of their mouth, preventing them from speaking or casting spells.', seen: 'Invented by Severus Snape (Half-Blood Prince); used by Harry Potter on Peeves the Poltergeist in 1996.', difficulty: 'Hard' },
+  { name: 'Legilimency Spell', pronunciation: 'Legilimens', description: 'Allows the caster to navigate the mind, thoughts, and memories of the target.', seen: 'Used by Severus Snape in 1995 to give Harry Potter Occlumency lessons, and by Lord Voldemort.', difficulty: 'Easy' },
+  { name: 'Dangling Jinx', pronunciation: 'Levicorpus', description: 'Dangles the target upside down in mid-air by their ankle.', seen: 'Invented by Severus Snape; discovered by Harry Potter in 1996 in the Prince\'s potions book.', difficulty: 'Medium' },
+  { name: 'Release Counter-Jinx', pronunciation: 'Liberacorpus', description: 'Drops the dangling victim to the ground.', seen: 'Discovered alongside Levicorpus in the Half-Blood Prince\'s potion book.', difficulty: 'Medium' },
+  { name: 'Hover / Movement Spell', pronunciation: 'Locomotor', description: 'Causes named objects to rise slightly and hover, following the caster\'s movement.', seen: 'Cast by Nymphadora Tonks in 1995 to move Harry\'s heavy trunk out of his bedroom.', difficulty: 'Medium' },
+  { name: 'Leg-Locker Curse', pronunciation: 'Locomotor Mortis', description: 'Locks the victim\'s legs firmly together, preventing walking.', seen: 'Cast by Draco Malfoy in 1991 on Neville Longbottom, forcing him to hop all the way to Gryffindor Tower.', difficulty: 'Hard' },
+  { name: 'Wand-Lighting Charm', pronunciation: 'Lumos', description: 'Produces a bright beam of light at the end of the wand tip.', seen: 'One of the most frequently used spells in the entire series.', difficulty: 'Easy' },
+  { name: 'Sunlight Spell', pronunciation: 'Lumos Solem', description: 'Produces a sudden, blinding beam of intense sunlight from the wand.', seen: 'Cast by Hermione Granger in 1991 to repel Devil\'s Snare plant roots holding Ron Weasley.', difficulty: 'Medium' },
+  { name: 'Muffling Charm', pronunciation: 'Muffliato', description: 'Fills the ears of nearby people with an unidentifiable buzzing sound to allow private conversation.', seen: 'Invented by Severus Snape; used heavily by Harry and Hermione during their tent travels in 1997.', difficulty: 'Easy' },
+  { name: 'Wand-Extinguishing Charm', pronunciation: 'Nox', description: 'Extinguishes the light produced by the Lumos spell.', seen: 'Used regularly by Harry and friends whenever extinguishing their wand light.', difficulty: 'Easy' },
+  { name: 'Memory Charm', pronunciation: 'Obliviate', description: 'Erases specific memories from the victim\'s mind.', seen: 'Famously used by Gilderoy Lockhart in 1993 (backfired), and by Hermione Granger on her parents in 1997.', difficulty: 'Easy' },
+  { name: 'Blindfold Spell', pronunciation: 'Obscuro', description: 'Conjures a dark blindfold securely over the target\'s eyes.', seen: 'Cast by Hermione Granger in 1997 on the portrait of Phineas Nigellus Black.', difficulty: 'Medium' },
+  { name: 'Flower-Conjuring Spell', pronunciation: 'Orchideous', description: 'Conjures a bouquet of fresh flowers from the wand tip.', seen: 'Cast by Mr Ollivander in 1994 during the Weighing of the Wands ceremony.', difficulty: 'Medium' },
+  { name: 'Full Body-Bind Curse', pronunciation: 'Petrificus Totalus', description: 'Paralyzes the target\'s entire body completely, making them stiff as a board.', seen: 'Cast by Hermione Granger in 1991 on Neville Longbottom when he tried to block their way.', difficulty: 'Easy' },
+  { name: 'Statue-Animating Spell', pronunciation: 'Piertotum Locomotor', description: 'Animates suits of armor and stone statues to follow the caster\'s commands.', seen: 'Cast by Minerva McGonagall in 1998 to command Hogwarts statues to defend the castle.', difficulty: 'Medium' },
+  { name: 'Shield Charm', pronunciation: 'Protego', description: 'Creates an invisible magical barrier to deflect spells, hexes, and physical attacks.', seen: 'Mastered by Harry Potter in 1995; used constantly in magical combat throughout the series.', difficulty: 'Easy' },
+  { name: 'Protective Black-Fire Ring', pronunciation: 'Protego Diabolica', description: 'Creates a ring of protective dark black/blue fire that incinerates enemies while sparing allies.', seen: 'Cast by Gellert Grindelwald in 1927 in Paris during his rally at the Pere Lachaise Cemetery.', difficulty: 'Hard' },
+  { name: 'Dark Shield Charm', pronunciation: 'Protego Horribilis', description: 'Powerful dark-magic defensive shield designed to protect against dark curses.', seen: 'Cast by Professor Flitwick in 1998 prior to the Battle of Hogwarts.', difficulty: 'Hard' },
+  { name: 'Boundary Shield Charm', pronunciation: 'Protego Totalum', description: 'Creates an expansive protective boundary around an entire area or campsite.', seen: 'Cast by Hermione Granger and Harry Potter in 1997 around their campsite.', difficulty: 'Hard' },
+  { name: 'Reductor Curse', pronunciation: 'Reducto', description: 'Blasts solid objects into pieces, dust, or rubble.', seen: 'Used by Dumbledore\'s Army members in 1996 in the Department of Mysteries, destroying prophecy shelves.', difficulty: 'Easy' },
+  { name: 'Release Spell', pronunciation: 'Relashio', description: 'Forces a target to release whatever it is holding or gripping by firing sparks or boiling water.', seen: 'Used by Harry Potter in 1995 against Grindylows underwater in the Black Lake.', difficulty: 'Medium' },
+  { name: 'Reviving Spell', pronunciation: 'Rennervate', description: 'Awakens an unconscious target.', seen: 'Used by Albus Dumbledore in 1995 on Viktor Krum, and by Harry Potter in 1997.', difficulty: 'Easy' },
+  { name: 'Mending Charm', pronunciation: 'Reparo', description: 'Repairs broken or shattered inanimate objects.', seen: 'Used constantly by Hermione Granger and Harry Potter to fix glasses, bowls, and broken windows.', difficulty: 'Easy' },
+  { name: 'Boggart-Banishment Spell', pronunciation: 'Riddikulus', description: 'Forces a Boggart to take on a humorous form, neutralizing its terrifying appearance with laughter.', seen: 'Taught by Remus Lupin in 1993 in Defense Against the Dark Arts class.', difficulty: 'Easy' },
+  { name: 'Scouring Charm', pronunciation: 'Scourgify', description: 'Cleans surfaces, objects, or containers thoroughly.', seen: 'Cast by Nymphadora Tonks in 1995 to clean Hedwig\'s cage.', difficulty: 'Easy' },
+  { name: 'Slashing Spell', pronunciation: 'Sectumsempra', description: 'Severely lacerates the target as if repeatedly slashed with an invisible sword.', seen: 'Invented by Severus Snape; used by Harry Potter in 1997 against Draco Malfoy in the bathroom.', difficulty: 'Easy' },
+  { name: 'Silencing Charm', pronunciation: 'Silencio', description: 'Temporarily deprives the target of its voice or sound output.', seen: 'Cast by Hermione Granger in 1996 on a Death Eater in the Department of Mysteries.', difficulty: 'Medium' },
+  { name: 'Stunning Spell', pronunciation: 'Stupefy', description: 'Knocks the target unconscious with a beam of red light.', seen: 'The standard combat spell used extensively by Aurors, Order members, and Death Eaters.', difficulty: 'Easy' },
+  { name: 'Dancing Feet Jinx', pronunciation: 'Tarantallegra', description: 'Forces the victim\'s legs to dance uncontrollably.', seen: 'Cast by Draco Malfoy against Harry Potter in 1992 during the Duelling Club.', difficulty: 'Medium' },
+  { name: 'Siphoning Charm', pronunciation: 'Tergeo', description: 'Siphons and wipes away liquids, dried blood, dust, or dirt from surfaces and skin.', seen: 'Cast by Hermione Granger in 1996 to clean dried blood off Harry\'s face.', difficulty: 'Medium' },
+  { name: 'Sectumsempra Healing Spell', pronunciation: 'Vulnera Sanentur', description: 'Healing incantation that reverses deep dark slashed wounds and restores lost blood.', seen: 'Used by Severus Snape in 1997 to heal Draco Malfoy after Harry cast Sectumsempra.', difficulty: 'Hard' },
+  { name: 'Levitation Charm', pronunciation: 'Wingardium Leviosa', description: 'Makes objects fly or levitate in mid-air.', seen: 'Famously taught by Professor Flitwick; used by Ron Weasley in 1991 to drop a club on the mountain troll.', difficulty: 'Easy' },
+];
+
+const DIFFICULTIES = ["Easy", "Medium", "Hard"];
+
 // ─── Daily target ─────────────────────────────────────────────────────────────
 function seededRNG(seed) {
   let s = seed >>> 0;
@@ -437,12 +701,66 @@ function getDailyTarget() {
 
 const TARGET = getDailyTarget();
 
+// ─── Stage 2: daily spell questions ───────────────────────────────────────────
+function dayNumber() {
+  const EPOCH = new Date('2026-08-12');
+  return Math.floor((getLocalToday() - EPOCH) / 86400000);
+}
+
+const SPELLS_BY_DIFFICULTY = {};
+DIFFICULTIES.forEach(d => { SPELLS_BY_DIFFICULTY[d] = SPELLS.filter(s => s.difficulty === d); });
+
+function pickDailySpell(difficulty, seed) {
+  const group = SPELLS_BY_DIFFICULTY[difficulty];
+  const order = buildShuffledOrder(group.length, seed);
+  const day = dayNumber();
+  return group[order[((day % group.length) + group.length) % group.length]];
+}
+
+function pickRandomDistinct(pool, n, rng) {
+  const copy = pool.slice();
+  const picked = [];
+  for (let i = 0; i < n && copy.length; i++) {
+    const idx = Math.floor(rng() * copy.length);
+    picked.push(copy.splice(idx, 1)[0]);
+  }
+  return picked;
+}
+
+function buildStage2Question(step, seed) {
+  const group = SPELLS_BY_DIFFICULTY[step.difficulty];
+  const target = pickDailySpell(step.difficulty, seed);
+  const rng = seededRNG((seed ^ (dayNumber() * 2654435761)) >>> 0);
+  const decoys = pickRandomDistinct(group.filter(s => s.name !== target.name), 3, rng);
+  const options = [target, ...decoys];
+  for (let i = options.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [options[i], options[j]] = [options[j], options[i]];
+  }
+  return { difficulty: step.difficulty, promptField: step.promptField, answerField: step.answerField, target, options };
+}
+
+const STAGE2_SEEDS = { Easy: 0x5EED01, Medium: 0x5EED02, Hard: 0x5EED03 };
+const STAGE2_STEPS = [
+  { difficulty: 'Easy',   promptField: 'pronunciation', answerField: 'name' },
+  { difficulty: 'Medium', promptField: 'name',          answerField: 'pronunciation' },
+  { difficulty: 'Hard',   promptField: 'name',          answerField: 'pronunciation' }
+];
+const STAGE2_QUESTIONS = STAGE2_STEPS.map(step => buildStage2Question(step, STAGE2_SEEDS[step.difficulty]));
+
 // ─── State ────────────────────────────────────────────────────────────────────
 const guesses = [];
 let selectedName = null;
 let activeIdx = -1;
 let won = false;
 let statsRecorded = false;
+
+let stage2Step = 0;
+let stage2Results = []; // { correct, chosenName } for each completed step
+let stage2CurrentAnswered = false;
+let stage2CurrentChosenName = null;
+let stage2Finished = false;
+let stage2StatsRecorded = false;
 
 // ─── Comparison ───────────────────────────────────────────────────────────────
 function setsEqual(a, b) {
@@ -508,6 +826,7 @@ function showWinBanner(n) {
   banner.classList.add('visible');
   input.disabled = true;
   document.getElementById('guess-btn').disabled = true;
+  document.getElementById('stage2-start-btn').style.display = 'inline-block';
 }
 
 // ─── Persistence ──────────────────────────────────────────────────────────────
@@ -559,6 +878,7 @@ function restoreProgress() {
     } else {
       displayDailyStats();
     }
+    restoreStage2Progress();
   }
 }
 
@@ -577,6 +897,7 @@ async function recordWinStats(n) {
     saveProgress();
   } catch (e) {
     // write failed (offline/network/rules) — statsRecorded stays false, retried on next load
+    console.error('recordWinStats failed:', e);
   }
   displayDailyStats();
 }
@@ -593,8 +914,231 @@ async function displayDailyStats() {
     el.textContent = `${solvedCount} ${solvedCount === 1 ? 'person has' : 'people have'} solved today's puzzle so far, averaging ${avg} guesses.`;
   } catch (e) {
     el.textContent = '';
+    console.error('displayDailyStats failed:', e);
   }
 }
+
+// ─── Stage 2: Spell Challenge ─────────────────────────────────────────────────
+function stage2StorageKey() {
+  return 'hpdle_stage2_' + todayKey();
+}
+
+function loadStage2Progress() {
+  try {
+    const raw = localStorage.getItem(stage2StorageKey());
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveStage2Progress() {
+  try {
+    localStorage.setItem(stage2StorageKey(), JSON.stringify({
+      step: stage2Step,
+      results: stage2Results,
+      currentAnswered: stage2CurrentAnswered,
+      currentChosenName: stage2CurrentChosenName,
+      finished: stage2Finished,
+      statsRecorded: stage2StatsRecorded
+    }));
+  } catch (e) {
+    // localStorage unavailable/throwing — degrade to in-memory-only
+  }
+}
+
+function showStage2() {
+  document.getElementById('stage2').classList.add('visible');
+  document.querySelector('.game-area').style.display = 'none';
+}
+
+function renderStage2Question() {
+  document.getElementById('stage2-question').style.display = '';
+  document.getElementById('stage2-result').classList.remove('visible');
+  document.getElementById('stage2-summary').classList.remove('visible');
+
+  const q = STAGE2_QUESTIONS[stage2Step];
+  document.getElementById('stage2-progress').textContent = `Step ${stage2Step + 1} of ${STAGE2_QUESTIONS.length}`;
+
+  const diffLabel = document.getElementById('stage2-difficulty-label');
+  diffLabel.textContent = q.difficulty;
+  diffLabel.className = 'stage2-difficulty ' + q.difficulty;
+
+  const promptEl = document.getElementById('stage2-prompt');
+  promptEl.textContent = q.promptField === 'pronunciation'
+    ? `Which spell has this pronunciation: "${q.target.pronunciation}"?`
+    : `How is "${q.target.name}" pronounced?`;
+
+  const optionsEl = document.getElementById('stage2-options');
+  optionsEl.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'stage2-option';
+    btn.textContent = opt[q.answerField];
+    btn.addEventListener('click', () => selectStage2Option(opt));
+    optionsEl.appendChild(btn);
+  });
+}
+
+function selectStage2Option(chosen) {
+  const q = STAGE2_QUESTIONS[stage2Step];
+  const correct = chosen.name === q.target.name;
+
+  stage2CurrentAnswered = true;
+  stage2CurrentChosenName = chosen.name;
+  stage2Results[stage2Step] = { correct, chosenName: chosen.name };
+  saveStage2Progress();
+
+  renderStage2Result(q, chosen.name, correct);
+}
+
+function renderStage2Result(q, chosenName, correct) {
+  const optionsEl = document.getElementById('stage2-options');
+  Array.from(optionsEl.children).forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === q.target[q.answerField]) btn.classList.add('correct');
+    else if (btn.textContent === (q.options.find(o => o.name === chosenName) || {})[q.answerField]) btn.classList.add('wrong');
+  });
+
+  const titleEl = document.getElementById('stage2-result-title');
+  titleEl.textContent = correct ? 'Well done!' : 'Not quite — here\'s the spell:';
+  titleEl.className = correct ? 'win' : 'lose';
+
+  const card = document.getElementById('stage2-spell-card');
+  card.innerHTML = `
+    <h4>${q.target.name}</h4>
+    <p><strong>Pronunciation:</strong> ${q.target.pronunciation}</p>
+    <p><strong>Description:</strong> ${q.target.description}</p>
+    <p><strong>Seen / Mentioned:</strong> ${q.target.seen}</p>
+  `;
+
+  const nextBtn = document.getElementById('stage2-next-btn');
+  const isLast = stage2Step === STAGE2_STEPS.length - 1;
+  nextBtn.textContent = isLast ? 'Finish' : 'Next Level';
+  nextBtn.onclick = isLast ? finishStage2 : advanceStage2;
+
+  document.getElementById('stage2-result').classList.add('visible');
+}
+
+function advanceStage2() {
+  stage2Step += 1;
+  stage2CurrentAnswered = false;
+  stage2CurrentChosenName = null;
+  saveStage2Progress();
+  renderStage2Question();
+}
+
+function stage2StatsDocRef() {
+  return doc(db, 'dailyStats', todayKey());
+}
+
+function renderStage2Summary() {
+  const correctCount = stage2Results.filter(r => r && r.correct).length;
+
+  document.getElementById('stage2-question').style.display = 'none';
+  document.getElementById('stage2-result').classList.remove('visible');
+
+  document.getElementById('stage2-summary-character').textContent =
+    `You found ${TARGET.name} in ${guesses.length} guess${guesses.length === 1 ? '' : 'es'}!`;
+  document.getElementById('stage2-summary-score').textContent =
+    `You got ${correctCount}/${STAGE2_STEPS.length} correct in the Spell Challenge!`;
+  document.getElementById('stage2-summary-tomorrow').textContent =
+    'Come back tomorrow for a new character and new spells!';
+
+  document.getElementById('stage2-summary').classList.add('visible');
+
+  displayStage1StatsForSummary();
+  displayStage2Stats();
+
+  return correctCount;
+}
+
+async function displayStage1StatsForSummary() {
+  const el = document.getElementById('stage2-summary-character-stats');
+  if (!el) return;
+  try {
+    const snap = await getDoc(statsDocRef());
+    if (!snap.exists()) { el.textContent = ''; return; }
+    const { solvedCount, totalGuesses } = snap.data();
+    if (!solvedCount) { el.textContent = ''; return; }
+    const avg = (totalGuesses / solvedCount).toFixed(1);
+    el.textContent = `${solvedCount} ${solvedCount === 1 ? 'person has' : 'people have'} solved today's puzzle so far, averaging ${avg} guesses.`;
+  } catch (e) {
+    el.textContent = '';
+    console.error('displayStage1StatsForSummary failed:', e);
+  }
+}
+
+async function finishStage2() {
+  stage2Finished = true;
+  const correctCount = renderStage2Summary();
+
+  if (!stage2StatsRecorded) {
+    try {
+      await setDoc(stage2StatsDocRef(), {
+        stage2FinishedCount: increment(1),
+        stage2CorrectAnswers: increment(correctCount),
+        stage2TotalAnswers: increment(STAGE2_STEPS.length)
+      }, { merge: true });
+      stage2StatsRecorded = true;
+    } catch (e) {
+      // write failed (offline/network/rules) — statsRecorded stays false, retried on next load
+      console.error('finishStage2 write failed:', e);
+    }
+    saveStage2Progress();
+    displayStage2Stats();
+  }
+}
+
+async function displayStage2Stats() {
+  const el = document.getElementById('stage2-summary-stats');
+  if (!el) return;
+  try {
+    const snap = await getDoc(stage2StatsDocRef());
+    if (!snap.exists()) { el.textContent = ''; return; }
+    const { stage2FinishedCount, stage2CorrectAnswers, stage2TotalAnswers } = snap.data();
+    if (!stage2FinishedCount) { el.textContent = ''; return; }
+    const pct = stage2TotalAnswers ? Math.round((stage2CorrectAnswers / stage2TotalAnswers) * 100) : 0;
+    el.textContent = `${stage2FinishedCount} ${stage2FinishedCount === 1 ? 'person has' : 'people have'} finished the Spell Challenge today, answering ${pct}% correctly.`;
+  } catch (e) {
+    el.textContent = '';
+    console.error('displayStage2Stats failed:', e);
+  }
+}
+
+function restoreStage2Progress() {
+  const data = loadStage2Progress();
+  if (!data) return;
+
+  showStage2();
+  stage2Step = data.step || 0;
+  stage2Results = Array.isArray(data.results) ? data.results : [];
+  stage2CurrentAnswered = !!data.currentAnswered;
+  stage2CurrentChosenName = data.currentChosenName || null;
+  stage2Finished = !!data.finished;
+  stage2StatsRecorded = !!data.statsRecorded;
+
+  if (stage2Finished) {
+    if (!stage2StatsRecorded) {
+      finishStage2();
+    } else {
+      renderStage2Summary();
+    }
+    return;
+  }
+
+  renderStage2Question();
+  if (stage2CurrentAnswered && stage2CurrentChosenName) {
+    const q = STAGE2_QUESTIONS[stage2Step];
+    renderStage2Result(q, stage2CurrentChosenName, stage2CurrentChosenName === q.target.name);
+  }
+}
+
+document.getElementById('stage2-start-btn').addEventListener('click', () => {
+  showStage2();
+  renderStage2Question();
+  document.getElementById('stage2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
 // ─── Autocomplete ─────────────────────────────────────────────────────────────
 const input = document.getElementById('search-input');

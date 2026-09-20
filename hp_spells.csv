@@ -1,0 +1,108 @@
+#,Name (Spell / Description Title),Incantation (Pronunciation Answer),Description,Seen / Mentioned,Difficulty
+1,Door-Opening Spell,Aberto,A spell used to open locked doors.,Used by Queenie Goldstein in 1926 to open the door to Percival Graves's office at MACUSA.,Hard
+2,Summoning Charm,Accio,"Brings an object directly to the caster, even over long distances.",Used extensively throughout the series; famously used by Harry Potter in 1994 during the Triwizard Tournament to summon his Firebolt.,Medium
+3,Age Line,Age Line,Creates a thin golden line on the floor that prevents anyone under a certain age from crossing.,Cast by Albus Dumbledore in 1994 around the Goblet of Fire to prevent underage students from entering.,Medium
+4,Water-Making Spell,Aguamenti,"Produces a jet or stream of clean, drinkable water from the wand tip.","Used by Harry Potter in 1997 to attempt to fill Dumbledore's goblet in the Crystal Cave, and to douse Hagrid's burning hut.",Easy
+5,Ascension Spell,Alarte Ascendare,Shoots the target high up into the air.,Used by Gilderoy Lockhart in 1992 during the Duelling Club to send a snake flying into the air.,Medium
+6,Unlocking Charm,Alohomora,"Unlocks and opens doors, windows, and padlocks that are not heavily protected by dark magic.",Used by Hermione Granger in 1991 to open the locked door on the third-floor corridor at Hogwarts.,Easy
+7,Airway-Clearing Spell,Anapneo,Clears the target's airway if they are choking on food or an object.,Cast by Horace Slughorn in 1996 on Marcus Belby when he began choking on a pheasant leg aboard the Hogwarts Express.,Hard
+8,Antler Growth Hex,Anteoculatia,A hex that turns the victim's hair into antlers.,Mentioned in 1996 when Pansy Parkinson missed lessons due to growing antlers.,Hard
+9,Anti-Cheating Spell,Anti-Cheating Spell,Prevents students from cheating while taking exams.,Cast on parchment and quills before exams at Hogwarts by teachers such as Minerva McGonagall.,Medium
+10,Revealing Charm,Aparecium,Forces invisible ink or hidden writing to become visible.,Used by Hermione Granger in 1993 on Tom Riddle's diary in an effort to reveal hidden text.,Medium
+11,Tracking Spell,Appare Vestigium,Illuminates recent magical activity and footprints in gold light.,Cast by Newt Scamander in 1927 in Paris to track Tina Goldstein and Credence Barebone.,Hard
+12,Apparition,Apparate / Disapparate,Magical method of transportation allowing the caster to instantaneously travel to a destination.,Used frequently by adult witches and wizards throughout the wizarding world.,Easy
+13,Water Spout Spell,Aqua Erupto,"Creates a large, powerful jet of water from the wand tip.",Used in various Harry Potter video games and combat scenarios to extinguish large fires.,Hard
+14,Spider-Repelling Spell,Arania Exumai,Blasts away giant spiders and acromantulas.,Used by Harry Potter in 1993 in the Forbidden Forest to fend off Aragog's offspring.,Medium
+15,Slowing Charm,Arresto Momentum,Decreases the velocity of a moving object or falling person.,Used by Albus Dumbledore in 1993 to save Harry Potter when he fell off his broom during a Quidditch match.,Medium
+16,Propulsion Charm,Ascendio,Lifts the caster high into the air.,Used by Harry Potter in 1995 during the Second Task of the Triwizard Tournament to launch out of the Black Lake.,Medium
+17,Killing Curse,Avada Kedavra,"Causes instantaneous, painless death. One of the Unforgivable Curses.","Famously used by Lord Voldemort in 1981 against James and Lily Potter, and cast on Harry Potter who survived it.",Easy
+18,Bird Transfiguration Spell,Avifors,Transforms inanimate objects or small creatures into a flock of birds.,Featured in Transfiguration lessons at Hogwarts and various spellbooks.,Hard
+19,Bird-Conjuring Charm,Avis,"Conjures a flock of small, chirping birds from the tip of the wand.","Cast by Ollivander in 1994 during the Weighing of the Wands, and by Hermione Granger in 1996.",Medium
+20,Bat-Bogey Hex,Bat-Bogey Hex,Transforms the target's snot into terrifying bats that fly out of their nose and attack them.,"A signature spell cast frequently by Ginny Weasley, notably on Zacharias Smith on the Hogwarts Express.",Medium
+21,White Light Spell,Baubillious,Produces a bright bolt of white light or lightning from the wand tip.,Mentioned in spellbooks as a basic offensive spell.,Hard
+22,Exploding Charm,Bombarda,"Creates a small explosion that blows open solid doors, locks, or walls.",Cast by Hermione Granger in 1994 to break Sirius Black out of his prison cell in the West Tower.,Easy
+23,Great Exploding Charm,Bombarda Maxima,"An intensified version of Bombarda that creates a devastating, large explosion.",Used by Dolores Umbridge in 1995 to breach the hidden wall of the Room of Requirement.,Easy
+24,Bone-Healing Spell,Brackium Emendo,"Intended to heal a broken bone, but if cast improperly removes the bones entirely.","Cast by Gilderoy Lockhart in 1992 on Harry Potter's broken arm, removing all 33 bones from his arm.",Medium
+25,Hair-Loss Curse,Calvorio,"Removes all hair from the target, leaving them bald.",Taught in defensive magic classes and listed in dark magic hex guides.,Hard
+26,Singing Jinx,Cantis,Forces the victim to burst into uncontrollable song.,Used in various Hogwarts dueling situations and prank books.,Hard
+27,Undetectable Extension Charm,Capacious Extremis,Expands the internal dimensions of a container without changing its outside appearance.,Cast by Hermione Granger in 1997 on her beaded handbag to store supplies during the hunt for Horcruxes.,Hard
+28,Caterwauling Charm,Caterwauling Charm,"Sets off a loud, high-pitched alarm siren when an unauthorized person enters a protected area.",Cast by Death Eaters in Hogsmeade in 1998 to detect Harry Potter when he apparated into the village.,Hard
+29,Intruder Warning Charm,Cave Inimicum,Alerts the caster when enemies enter the boundary of a campsite or area.,Used by Hermione Granger and Harry Potter in 1997 to protect their tent during the Horcrux hunt.,Hard
+30,Cheering Charm,Cheering Charm,"Causes the target to become happy and contented, though overuse causes hysterical laughter.",Taught by Professor Flitwick to third-year students in 1994.,Medium
+31,Rotation Spell,Circumrota,Rotates or spins objects around rapidly.,Cast by Corvus Lestrange in French records room archives.,Hard
+32,Chest-Opening Spell,Cistem Aperio,"Opens locked chests, boxes, or trunks with a burst of force.",Used by Tom Riddle in a flashback in 1943 to open Rubeus Hagrid's trunk containing Aragog.,Medium
+33,Locking Spell,Colloportus,"Magically locks a door so it cannot be opened manually, producing an audible squelching sound.",Cast by Hermione Granger in 1996 in the Department of Mysteries to hold off Death Eaters.,Medium
+34,Stickfast Hex,Colloshoo,Glues the victim's shoes firmly to the ground.,Mentioned in spellbooks and used by Hogwarts students during duels.,Hard
+35,Colour-Change Charm,Colovaria,Changes the color of an object or animal.,Taught during OWLs Transfiguration classes at Hogwarts.,Hard
+36,Blasting Curse,Confringo,Causes anything it strikes to burst violently into flame and explode.,"Used by Harry Potter in 1997 to blast off the sidecar of Hagrid's motorbike, and by Hermione in Bathilda Bagshot's house.",Medium
+37,Confundus Charm,Confundo,"Causes the target to become thoroughly confused, forgetful, or susceptible to direction.",Cast by Hermione Granger in 1996 on Cormac McLaggen during Quidditch keeper tryouts.,Medium
+38,Cruciatus Curse,Crucio,"Inflicts excruciating, unbearable physical pain. One of the Unforgivable Curses.","Used by Bellatrix Lestrange, Lord Voldemort, and cast by Harry Potter on Bellatrix and Amycus Carrow.",Easy
+39,Gouging Spell,Defodio,"Digs out materials, stone, earth, and wood with force.","Used by Harry, Ron, and Hermione in 1998 to dig their way out of Gringotts dungeons on a dragon.",Hard
+40,Erase Spell,Deletrius,Disintegrates or erases the shadow image left behind by the Prior Incantato spell.,Cast by Amos Diggory in 1994 at the Quidditch World Cup campsite after testing Harry's wand.,Hard
+41,Teeth-Growing Hex,Densaugeo,Causes the victim's front teeth to grow rapidly at an alarming rate.,"Cast by Draco Malfoy in 1994; accidentally hit Hermione Granger, causing her front teeth to grow past her chin.",Hard
+42,Pressure Blasting Spell,Deprimo,"Applies immense downward pressure, shattering holes in floors, roofs, or obstacles.",Used by Hermione Granger in 1997 to blast a hole through the floor of the Lovegood house.,Hard
+43,Banishing Charm,Depulso,Sends objects or targets flying away from the caster (the opposite of Accio).,Taught in fourth-year Charms classes at Hogwarts; used frequently in dueling.,Medium
+44,Lowering Spell,Descendo,Causes targeted objects or structures to lower or collapse downward.,Cast by Crabbe in 1998 in the Room of Requirement to bring down a giant stack of furniture.,Hard
+45,Severing Charm,Diffindo,"Precisely cuts or tears physical objects such as cloth, rope, or plants.","Used by Harry Potter in 1994 to cut Cedric Diggory's bag strap, and in 1996 to swap covers on potions books.",Medium
+46,Shrinking Charm,Diminuendo,Forces a targeted object or creature to shrink in size.,Taught by Harry Potter to the Dumbledore's Army members in 1995.,Medium
+47,Secret Opening Spell,Dissendium,Opens specific secret passages or concealed hidden doors.,Used by Harry Potter in 1993 to open the hump of the one-eyed witch statue leading to Honeydukes.,Medium
+48,Dragon Transfiguration Spell,Draconifors,"Transforms small dragon statues into real, fire-breathing miniature dragons.",Taught in Hogwarts Transfiguration classes.,Hard
+49,Hardening Charm,Duro,Transforms soft objects or materials into solid stone.,Cast by Hermione Granger in 1998 during the Battle of Hogwarts to turn a tapestry into solid stone.,Hard
+50,Bubble Head Jinx,Ebublio,"Causes the target to become trapped inside a giant, unbreakable bubble.",Used in various magical duels and Hogwarts charm classes.,Hard
+51,Engorgement Charm,Engorgio,Causes targeted objects or living beings to swell rapidly in size.,Used by Barty Crouch Jr. (disguised as Moody) in 1994 to enlarge a spider before demonstrating Unforgivable Curses.,Easy
+52,Healing Charm,Episkey,"Heals minor injuries, such as broken noses, cuts, and minor fractures.",Cast by Nymphadora Tonks (and Luna Lovegood in film) in 1996 to fix Harry's broken nose on the Hogwarts Express.,Medium
+53,Binding/Fusing Spell,Epoximise,Fuses two objects together as if they were glued.,Featured in various magical crafting spellbooks.,Hard
+54,Erecting Spell,Erecto,"Erects structures, tents, or poles automatically from a collapsed or folded state.",Cast by Hermione Granger in 1997 to set up their tent during the search for Horcruxes.,Hard
+55,Vanishing Spell,Evanesco,Causes targeted objects to vanish completely into non-being.,Used by Severus Snape and Bill Weasley to vanish potion remnants and secret order documents.,Easy
+56,Throwing Jinx,Everte Statum,Throws the victim backward in mid-air and causes them to lose their balance.,Cast by Draco Malfoy against Harry Potter in 1992 during the Duelling Club.,Medium
+57,Patronus Charm,Expecto Patronum,Conjures a silvery spirit animal embodiment of positive feelings to ward off Dementors.,Famously cast by Harry Potter in 1993 at the Black Lake to save Sirius Black and himself from hundreds of Dementors.,Easy
+58,Disarming Charm,Expelliarmus,Forces the victim to release whatever wand or item they are holding.,Harry Potter's signature spell; used in 1998 during the final duel to defeat Lord Voldemort.,Easy
+59,Explosive Pressure Jinx,Expulso,"Causes an object or surface to explode with sudden, violent pressure.",Used by a Death Eater in 1997 in the Luchino Caffe to destroy the table Harry and Hermione were behind.,Medium
+60,Bandage/Splint Spell,Ferula,Conjures clean bandages and wooden splints to bind a broken limb.,Cast by Remus Lupin in 1994 to wrap Ron Weasley's broken leg in the Shrieking Shack.,Hard
+61,Fiendfyre,Fiendfyre,"Summons a uncontrollable, roaring dark fire that takes the form of beasts and destroys everything.","Cast by Crabbe in 1998 in the Room of Requirement, which destroyed Ravenclaw's Diadem Horcrux.",Hard
+62,General Counter-Spell,Finite Incantatem,Stops ongoing spell effects and general incantations in the vicinity.,"Used by Severus Snape in 1992 to end chaotic spells during the Duelling Club, and by Hermione Granger.",Easy
+63,Fire-Marking Spell,Flagrate,Allows the caster to draw glowing fiery lines or marks in mid-air or on surfaces.,Used by Hermione Granger in 1996 to mark doors in the Department of Mysteries with fiery X's.,Hard
+64,Knockback Jinx,Flipendo,Pushes targeted objects or opponents backward with force.,A foundational spell featured heavily throughout Hogwarts training and Harry Potter video games.,Medium
+65,Pimple Jinx,Furnunculus,Covers the victim's skin in painful boils and pimples.,"Cast by Harry Potter in 1994 on the Hogwarts Express, hitting Gregory Goyle.",Hard
+66,Doubling Charm,Geminio,"Duplicates an object, creating an exact replica.","Cast by Hermione Granger in 1997 to duplicate Slytherin's Locket, and used as a vault defense in Gringotts.",Hard
+67,Staircase-Sliding Spell,Glisseo,"Flattens the steps of a staircase into a smooth, slippery slide.",Used by Hermione Granger in 1998 to turn the stairs in Hogwarts into a slide to escape Death Eaters.,Medium
+68,Vanishing Cabinet Binding Spell,Harmonia Nectere Passus,Spell used to bind and activate a pair of Vanishing Cabinets.,Chanted repeatedly by Draco Malfoy in 1996–1997 in the Room of Requirement to repair the Vanishing Cabinet.,Hard
+69,Human-Presence-Revealing Spell,Homenum Revelio,"Detects human presence nearby, revealing the location of hidden or invisible people.","Used by Hermione Granger in 1997 at Grimmauld Place, and by Death Eaters at the Lovegood home.",Hard
+70,Impediment Jinx,Impedimenta,"Slows down, stops, or trips an approaching attacker or object.",Used by Harry Potter extensively in 1995 during the Third Task of the Triwizard Tournament.,Medium
+71,Imperius Curse,Imperio,"Places the victim under total, hypnotic control of the caster. One of the Unforgivable Curses.",Used by Harry Potter in 1998 on Bogrod the goblin and Travers to break into Gringotts.,Easy
+72,Impervius Charm,Impervius,"Makes an object completely repellent to water, mist, and rain.",Cast by Hermione Granger in 1993 on Harry Potter's glasses during a torrential Quidditch match.,Medium
+73,Binding Spell,Incarcerous,Conjures thick ropes or chains from the wand tip to bind a target securely.,Cast by Dolores Umbridge in 1996 in the Forbidden Forest against Magorian the centaur.,Medium
+74,Fire-Making Spell,Incendio,Produces fire.,It was used in 1994 by Arthur Weasley to create a fire in the Dursleys' hearth so that he could use Floo Powder there.,Medium
+75,Cloak-Igniting Spell,Lacarnum Inflamari,Shoots a small fireball or flame from the wand to ignite garments.,Cast by Hermione Granger in 1991 to set Severus Snape's cloak on fire during the Quidditch match.,Medium
+76,Tongue-Tying Spell,Langlock,"Glues the target's tongue to the roof of their mouth, preventing them from speaking or casting spells.",Invented by Severus Snape (Half-Blood Prince); used by Harry Potter on Peeves the Poltergeist in 1996.,Hard
+77,Legilimency Spell,Legilimens,"Allows the caster to navigate the mind, thoughts, and memories of the target.","Used by Severus Snape in 1995 to give Harry Potter Occlumency lessons, and by Lord Voldemort.",Easy
+78,Dangling Jinx,Levicorpus,Dangles the target upside down in mid-air by their ankle.,Invented by Severus Snape; discovered by Harry Potter in 1996 in the Prince's potions book.,Medium
+79,Release Counter-Jinx,Liberacorpus,Drops the dangling victim to the ground.,Discovered alongside Levicorpus in the Half-Blood Prince's potion book.,Medium
+80,Hover / Movement Spell,Locomotor,"Causes named objects to rise slightly and hover, following the caster's movement.",Cast by Nymphadora Tonks in 1995 to move Harry's heavy trunk out of his bedroom.,Medium
+81,Leg-Locker Curse,Locomotor Mortis,"Locks the victim's legs firmly together, preventing walking.","Cast by Draco Malfoy in 1991 on Neville Longbottom, forcing him to hop all the way to Gryffindor Tower.",Hard
+82,Wand-Lighting Charm,Lumos,Produces a bright beam of light at the end of the wand tip.,One of the most frequently used spells in the entire series.,Easy
+83,Sunlight Spell,Lumos Solem,"Produces a sudden, blinding beam of intense sunlight from the wand.",Cast by Hermione Granger in 1991 to repel Devil's Snare plant roots holding Ron Weasley.,Medium
+84,Muffling Charm,Muffliato,Fills the ears of nearby people with an unidentifiable buzzing sound to allow private conversation.,Invented by Severus Snape; used heavily by Harry and Hermione during their tent travels in 1997.,Easy
+85,Wand-Extinguishing Charm,Nox,Extinguishes the light produced by the Lumos spell.,Used regularly by Harry and friends whenever extinguishing their wand light.,Easy
+86,Memory Charm,Obliviate,Erases specific memories from the victim's mind.,"Famously used by Gilderoy Lockhart in 1993 (backfired), and by Hermione Granger on her parents in 1997.",Easy
+87,Blindfold Spell,Obscuro,Conjures a dark blindfold securely over the target's eyes.,Cast by Hermione Granger in 1997 on the portrait of Phineas Nigellus Black.,Medium
+88,Flower-Conjuring Spell,Orchideous,Conjures a bouquet of fresh flowers from the wand tip.,Cast by Mr Ollivander in 1994 during the Weighing of the Wands ceremony.,Medium
+89,Full Body-Bind Curse,Petrificus Totalus,"Paralyzes the target's entire body completely, making them stiff as a board.",Cast by Hermione Granger in 1991 on Neville Longbottom when he tried to block their way.,Easy
+90,Statue-Animating Spell,Piertotum Locomotor,Animates suits of armor and stone statues to follow the caster's commands.,Cast by Minerva McGonagall in 1998 to command Hogwarts statues to defend the castle.,Medium
+91,Shield Charm,Protego,"Creates an invisible magical barrier to deflect spells, hexes, and physical attacks.",Mastered by Harry Potter in 1995; used constantly in magical combat throughout the series.,Easy
+92,Protective Black-Fire Ring,Protego Diabolica,Creates a ring of protective dark black/blue fire that incinerates enemies while sparing allies.,Cast by Gellert Grindelwald in 1927 in Paris during his rally at the Pere Lachaise Cemetery.,Hard
+93,Dark Shield Charm,Protego Horribilis,Powerful dark-magic defensive shield designed to protect against dark curses.,Cast by Professor Flitwick in 1998 prior to the Battle of Hogwarts.,Hard
+94,Boundary Shield Charm,Protego Totalum,Creates an expansive protective boundary around an entire area or campsite.,Cast by Hermione Granger and Harry Potter in 1997 around their campsite.,Hard
+95,Reductor Curse,Reducto,"Blasts solid objects into pieces, dust, or rubble.","Used by Dumbledore's Army members in 1996 in the Department of Mysteries, destroying prophecy shelves.",Easy
+96,Release Spell,Relashio,Forces a target to release whatever it is holding or gripping by firing sparks or boiling water.,Used by Harry Potter in 1995 against Grindylows underwater in the Black Lake.,Medium
+97,Reviving Spell,Rennervate,Awakens an unconscious target.,"Used by Albus Dumbledore in 1995 on Viktor Krum, and by Harry Potter in 1997.",Easy
+98,Mending Charm,Reparo,Repairs broken or shattered inanimate objects.,"Used constantly by Hermione Granger and Harry Potter to fix glasses, bowls, and broken windows.",Easy
+99,Boggart-Banishment Spell,Riddikulus,"Forces a Boggart to take on a humorous form, neutralizing its terrifying appearance with laughter.",Taught by Remus Lupin in 1993 in Defense Against the Dark Arts class.,Easy
+100,Scouring Charm,Scourgify,"Cleans surfaces, objects, or containers thoroughly.",Cast by Nymphadora Tonks in 1995 to clean Hedwig's cage.,Easy
+101,Slashing Spell,Sectumsempra,Severely lacerates the target as if repeatedly slashed with an invisible sword.,Invented by Severus Snape; used by Harry Potter in 1997 against Draco Malfoy in the bathroom.,Easy
+102,Silencing Charm,Silencio,Temporarily deprives the target of its voice or sound output.,Cast by Hermione Granger in 1996 on a Death Eater in the Department of Mysteries.,Medium
+103,Stunning Spell,Stupefy,Knocks the target unconscious with a beam of red light.,"The standard combat spell used extensively by Aurors, Order members, and Death Eaters.",Easy
+104,Dancing Feet Jinx,Tarantallegra,Forces the victim's legs to dance uncontrollably.,Cast by Draco Malfoy against Harry Potter in 1992 during the Duelling Club.,Medium
+105,Siphoning Charm,Tergeo,"Siphons and wipes away liquids, dried blood, dust, or dirt from surfaces and skin.",Cast by Hermione Granger in 1996 to clean dried blood off Harry's face.,Medium
+106,Sectumsempra Healing Spell,Vulnera Sanentur,Healing incantation that reverses deep dark slashed wounds and restores lost blood.,Used by Severus Snape in 1997 to heal Draco Malfoy after Harry cast Sectumsempra.,Hard
+107,Levitation Charm,Wingardium Leviosa,Makes objects fly or levitate in mid-air.,Famously taught by Professor Flitwick; used by Ron Weasley in 1991 to drop a club on the mountain troll.,Easy
