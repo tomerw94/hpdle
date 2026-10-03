@@ -331,6 +331,77 @@
     #stage2-summary p.summary-substat { font-size: 0.82rem; opacity: 0.85; }
     #stage2-summary-tomorrow { margin-top: 18px; padding-top: 14px; border-top: 1px solid #2a2a4a; color: #c9a84c; font-size: 0.95rem; }
 
+    /* ── Stage 3: Quote Challenge ── */
+    #stage3 {
+      display: none;
+      max-width: 960px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background: #14142a;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+    }
+
+    #stage3.visible { display: block; }
+
+    .stage3-quote {
+      font-size: 1.2rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: #e8e0cc;
+      border-left: 3px solid #c9a84c;
+      padding: 4px 16px;
+      margin-bottom: 18px;
+    }
+
+    .stage3-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: #1a1a35;
+      border: 1px solid #3a3a6a;
+      border-radius: 6px;
+      color: #e8e0cc;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .stage3-input:focus { border-color: #c9a84c; }
+    .stage3-input:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    #stage3-speaker-btn, #stage3-movie-btn {
+      padding: 12px 26px;
+      background: #c9a84c;
+      color: #0d0d1f;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    #stage3-speaker-btn:hover:not(:disabled), #stage3-movie-btn:hover:not(:disabled) { background: #dfc06a; }
+    #stage3-speaker-btn:active:not(:disabled), #stage3-movie-btn:active:not(:disabled) { transform: scale(0.97); }
+    #stage3-speaker-btn:disabled, #stage3-movie-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .stage3-subresult { display: none; margin-bottom: 18px; }
+    .stage3-subresult.visible { display: block; }
+    .stage3-subresult p { font-size: 0.95rem; line-height: 1.4; }
+    .stage3-subresult p.correct { color: #66bb6a; }
+    .stage3-subresult p.wrong { color: #ef9a9a; }
+
+    #stage3-summary { display: none; text-align: center; }
+    #stage3-summary.visible { display: block; }
+    #stage3-summary h3 { color: #c9a84c; font-size: 1.2rem; margin-bottom: 8px; }
+    #stage3-summary p { font-size: 0.92rem; color: #b0b0d8; margin-top: 4px; }
+    #stage3-summary p.summary-headline { margin-top: 16px; color: #e8e0cc; font-size: 0.98rem; }
+    #stage3-summary p.summary-substat { font-size: 0.82rem; opacity: 0.85; }
+    #stage3-summary-tomorrow { margin-top: 18px; padding-top: 14px; border-top: 1px solid #2a2a4a; color: #c9a84c; font-size: 0.95rem; }
+
     /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #181830; }
@@ -342,6 +413,7 @@
       tbody td:first-child { min-width: 100px; font-size: 0.78rem; }
       #guess-btn { padding: 12px 14px; }
       .stage2-options { grid-template-columns: 1fr; }
+      #stage3-speaker-btn, #stage3-movie-btn { padding: 12px 14px; }
     }
   </style>
 </head>
@@ -379,6 +451,8 @@
           <th>Gender</th>
           <th>Role</th>
           <th>Species</th>
+          <th>House</th>
+          <th>Birth Year</th>
           <th>First Appearance</th>
         </tr>
       </thead>
@@ -413,6 +487,60 @@
     <p id="stage2-summary-score" class="summary-headline"></p>
     <p id="stage2-summary-stats" class="summary-substat"></p>
     <p id="stage2-summary-tomorrow"></p>
+    <button id="stage3-start-btn" class="stage-btn" style="display:none;">Continue to Quote Challenge &rarr;</button>
+  </div>
+</div>
+
+<div id="stage3">
+  <div class="stage2-header">
+    <h2>&#128172; Quote Challenge</h2>
+  </div>
+
+  <div id="stage3-question">
+    <blockquote class="stage3-quote" id="stage3-quote-text"></blockquote>
+
+    <div id="stage3-speaker-step">
+      <p class="stage2-prompt">Who said it?</p>
+      <div class="search-area">
+        <div class="autocomplete-wrapper">
+          <input id="stage3-speaker-input" type="text" class="stage3-input" placeholder="Type a character name..." autocomplete="off" spellcheck="false">
+          <div id="stage3-speaker-list" class="autocomplete-list"></div>
+        </div>
+        <button id="stage3-speaker-btn">Guess</button>
+      </div>
+    </div>
+
+    <div id="stage3-speaker-result" class="stage3-subresult">
+      <p id="stage3-speaker-result-text"></p>
+    </div>
+
+    <div id="stage3-movie-step" style="display:none;">
+      <p class="stage2-prompt">Which movie is it from?</p>
+      <div class="search-area">
+        <div class="autocomplete-wrapper">
+          <input id="stage3-movie-input" type="text" class="stage3-input" placeholder="Type a movie title..." autocomplete="off" spellcheck="false">
+          <div id="stage3-movie-list" class="autocomplete-list"></div>
+        </div>
+        <button id="stage3-movie-btn">Guess</button>
+      </div>
+    </div>
+
+    <div id="stage3-movie-result" class="stage3-subresult">
+      <p id="stage3-movie-result-text"></p>
+      <p id="stage3-situation-text" class="summary-substat"></p>
+      <button id="stage3-finish-btn" class="stage-btn">See Final Results &rarr;</button>
+    </div>
+  </div>
+
+  <div id="stage3-summary">
+    <h3>🏆 Final Results</h3>
+    <p id="stage3-summary-character" class="summary-headline" style="margin-top:0;"></p>
+    <p id="stage3-summary-character-stats" class="summary-substat"></p>
+    <p id="stage3-summary-spell-score" class="summary-headline"></p>
+    <p id="stage3-summary-spell-stats" class="summary-substat"></p>
+    <p id="stage3-summary-score" class="summary-headline"></p>
+    <p id="stage3-summary-stats" class="summary-substat"></p>
+    <p id="stage3-summary-tomorrow">Come back tomorrow for a new character, new spells, and a new quote!</p>
   </div>
 </div>
 
@@ -435,108 +563,109 @@ const db = getFirestore(firebaseApp);
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const CHARACTERS = [
-  { name: "Harry Potter",          gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Hermione Granger",      gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Ron Weasley",           gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Albus Dumbledore",      gender: "Male",    roles: ["School Head","Order of the Phoenix"],  species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Severus Snape",         gender: "Male",    roles: ["Hogwarts Staff","Death Eater"],        species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Rubeus Hagrid",         gender: "Male",    roles: ["Hogwarts Staff","Order of the Phoenix"], species: ["Human","Giant"], firstAppearance: "Philosopher's Stone" },
-  { name: "Lord Voldemort",        gender: "Male",    roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Draco Malfoy",          gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Neville Longbottom",    gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Ginny Weasley",         gender: "Female",  roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Fred Weasley",          gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "George Weasley",        gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Molly Weasley",         gender: "Female",  roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Arthur Weasley",        gender: "Male",    roles: ["Ministry Official","Order of the Phoenix"], species: ["Human"],    firstAppearance: "Philosopher's Stone" },
-  { name: "Percy Weasley",         gender: "Male",    roles: ["Ministry Official","Student"],         species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Sirius Black",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human","Animagus"], firstAppearance: "Prisoner of Azkaban" },
-  { name: "Remus Lupin",           gender: "Male",    roles: ["Order of the Phoenix","Hogwarts Staff"], species: ["Human","Werewolf"], firstAppearance: "Prisoner of Azkaban" },
-  { name: "Peter Pettigrew",       gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human","Animagus"], firstAppearance: "Prisoner of Azkaban" },
-  { name: "Bellatrix Lestrange",   gender: "Female",  roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Lucius Malfoy",         gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Narcissa Malfoy",       gender: "Female",  roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Fenrir Greyback",       gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human","Werewolf"], firstAppearance: "Half-Blood Prince" },
-  { name: "Dolores Umbridge",      gender: "Female",  roles: ["Ministry Official","Hogwarts Staff"],  species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "Minerva McGonagall",    gender: "Female",  roles: ["Hogwarts Staff","Order of the Phoenix"], species: ["Human","Animagus"], firstAppearance: "Philosopher's Stone" },
-  { name: "Filius Flitwick",       gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Pomona Sprout",         gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Gilderoy Lockhart",     gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Horace Slughorn",       gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Half-Blood Prince" },
-  { name: "Quirinus Quirrell",     gender: "Male",    roles: ["Hogwarts Staff","Dark Side"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Sybill Trelawney",      gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Prisoner of Azkaban" },
-  { name: "Madam Hooch",           gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Madam Pomfrey",         gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Argus Filch",           gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Firenze",               gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Centaur"],        firstAppearance: "Philosopher's Stone" },
-  { name: "Alastor Moody",         gender: "Male",    roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Nymphadora Tonks",      gender: "Female",  roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "Kingsley Shacklebolt",  gender: "Male",    roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "James Potter",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human","Animagus"], firstAppearance: "Philosopher's Stone" },
-  { name: "Lily Potter",           gender: "Female",  roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Bill Weasley",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Charlie Weasley",       gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Dobby",                 gender: "Male",    roles: ["Servant"],                             species: ["House-Elf"],      firstAppearance: "Chamber of Secrets" },
-  { name: "Kreacher",              gender: "Male",    roles: ["Servant"],                             species: ["House-Elf"],      firstAppearance: "Order of the Phoenix" },
-  { name: "Winky",                 gender: "Female",  roles: ["Servant"],                             species: ["House-Elf"],      firstAppearance: "Goblet of Fire" },
-  { name: "Luna Lovegood",         gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "Colin Creevey",         gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Viktor Krum",           gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Fleur Delacour",        gender: "Female",  roles: ["Student"],                             species: ["Human","Veela"],  firstAppearance: "Goblet of Fire" },
-  { name: "Cedric Diggory",        gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Cho Chang",             gender: "Female",  roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Prisoner of Azkaban" },
-  { name: "Lavender Brown",        gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Parvati Patil",         gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Padma Patil",           gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Seamus Finnigan",       gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Dean Thomas",           gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Pansy Parkinson",       gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Vincent Crabbe",        gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Gregory Goyle",         gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Lee Jordan",            gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Oliver Wood",           gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Barty Crouch Jr.",      gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Barty Crouch Sr.",      gender: "Male",    roles: ["Ministry Official"],                   species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Cornelius Fudge",       gender: "Male",    roles: ["Ministry Official"],                   species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Rita Skeeter",          gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human","Animagus"], firstAppearance: "Goblet of Fire" },
-  { name: "Xenophilius Lovegood",  gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Deathly Hallows" },
-  { name: "Aberforth Dumbledore",  gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "Garrick Ollivander",    gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Griphook",              gender: "Male",    roles: ["Wizarding Society"],                   species: ["Goblin"],         firstAppearance: "Philosopher's Stone" },
-  { name: "Bathilda Bagshot",      gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Deathly Hallows" },
-  { name: "Andromeda Tonks",       gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Deathly Hallows" },
-  { name: "Vernon Dursley",        gender: "Male",    roles: ["Muggle"],                              species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Petunia Dursley",       gender: "Female",  roles: ["Muggle"],                              species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Dudley Dursley",        gender: "Male",    roles: ["Muggle"],                              species: ["Human"],          firstAppearance: "Philosopher's Stone" },
-  { name: "Tom Riddle",            gender: "Male",    roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Regulus Black",         gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Order of the Phoenix" },
-  { name: "Gellert Grindelwald",   gender: "Male",    roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Deathly Hallows" },
-  { name: "Teddy Lupin",           gender: "Male",    roles: ["Next Generation"],                     species: ["Human"],          firstAppearance: "Deathly Hallows" },
-  { name: "Albus Severus Potter",  gender: "Male",    roles: ["Next Generation","Student"],           species: ["Human"],          firstAppearance: "Deathly Hallows" },
-  { name: "Helga Hufflepuff",      gender: "Female",  roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Godric Gryffindor",     gender: "Male",    roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Salazar Slytherin",     gender: "Male",    roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Rowena Ravenclaw",      gender: "Female",  roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets" },
-  { name: "Madam Maxime",          gender: "Female",  roles: ["School Head"],                         species: ["Human","Giant"],  firstAppearance: "Goblet of Fire" },
-  { name: "Igor Karkaroff",        gender: "Male",    roles: ["School Head","Death Eater"],           species: ["Human"],          firstAppearance: "Goblet of Fire" },
-  { name: "Nearly Headless Nick",  gender: "Male",    roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone" },
-  { name: "Moaning Myrtle",        gender: "Female",  roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Chamber of Secrets" },
-  { name: "The Bloody Baron",      gender: "Male",    roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone" },
-  { name: "Peeves",                gender: "Male",    roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone" },
-  { name: "Sorting Hat",           gender: "Unknown", roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone" },
-  { name: "Nagini",                gender: "Female",  roles: ["Dark Side","Pet"],                     species: ["Creature/Animal"], firstAppearance: "Goblet of Fire" },
-  { name: "Scabbers",              gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal","Animagus"], firstAppearance: "Philosopher's Stone" },
-  { name: "Crookshanks",           gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Prisoner of Azkaban" },
-  { name: "Hedwig",                gender: "Female",  roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone" },
-  { name: "Errol",                 gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Chamber of Secrets" },
-  { name: "Trevor",                gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone" },
-  { name: "Fang",                  gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone" },
-  { name: "Mrs. Norris",           gender: "Female",  roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone" },
-  { name: "Fawkes",                gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Chamber of Secrets" },
-  { name: "Buckbeak",              gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Prisoner of Azkaban" },
-  { name: "Aragog",                gender: "Male",    roles: ["Creature"],                            species: ["Creature/Animal"], firstAppearance: "Chamber of Secrets" },
-  { name: "Fluffy",                gender: "Male",    roles: ["Creature"],                            species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone" },
-  { name: "Grawp",                 gender: "Male",    roles: ["Creature"],                            species: ["Giant"],           firstAppearance: "Order of the Phoenix" },
+  { name: "Harry Potter",          gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1980, 1980], house: "Gryffindor" },
+  { name: "Hermione Granger",      gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1979], house: "Gryffindor" },
+  { name: "Ron Weasley",           gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1980, 1980], house: "Gryffindor" },
+  { name: "Albus Dumbledore",      gender: "Male",    roles: ["School Head","Order of the Phoenix"],  species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1881, 1881], house: "Gryffindor" },
+  { name: "Severus Snape",         gender: "Male",    roles: ["Hogwarts Staff","Death Eater"],        species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1960, 1960], house: "Slytherin" },
+  { name: "Rubeus Hagrid",         gender: "Male",    roles: ["Hogwarts Staff","Order of the Phoenix"], species: ["Human","Giant"], firstAppearance: "Philosopher's Stone", birthYear: [1928, 1928], house: "Gryffindor" },
+  { name: "Lord Voldemort",        gender: "Male",    roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1926, 1926], house: "Slytherin" },
+  { name: "Draco Malfoy",          gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1980, 1980], house: "Slytherin" },
+  { name: "Neville Longbottom",    gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1980, 1980], house: "Gryffindor" },
+  { name: "Ginny Weasley",         gender: "Female",  roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1981, 1981], house: "Gryffindor" },
+  { name: "Fred Weasley",          gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1978, 1978], house: "Gryffindor" },
+  { name: "George Weasley",        gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1978, 1978], house: "Gryffindor" },
+  { name: "Molly Weasley",         gender: "Female",  roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1949, 1950], house: "Gryffindor" },
+  { name: "Arthur Weasley",        gender: "Male",    roles: ["Ministry Official","Order of the Phoenix"], species: ["Human"],    firstAppearance: "Philosopher's Stone", birthYear: [1950, 1950], house: "Gryffindor" },
+  { name: "Percy Weasley",         gender: "Male",    roles: ["Ministry Official","Student"],         species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1976, 1976], house: "Gryffindor" },
+  { name: "Sirius Black",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human","Animagus"], firstAppearance: "Prisoner of Azkaban", birthYear: [1959, 1959], house: "Gryffindor" },
+  { name: "Remus Lupin",           gender: "Male",    roles: ["Order of the Phoenix","Hogwarts Staff"], species: ["Human","Werewolf"], firstAppearance: "Prisoner of Azkaban", birthYear: [1960, 1960], house: "Gryffindor" },
+  { name: "Peter Pettigrew",       gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human","Animagus"], firstAppearance: "Prisoner of Azkaban", birthYear: [1959, 1960], house: "Gryffindor" },
+  { name: "Bellatrix Lestrange",   gender: "Female",  roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: [1951, 1951], house: "Slytherin" },
+  { name: "Lucius Malfoy",         gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: [1954, 1954], house: "Slytherin" },
+  { name: "Narcissa Malfoy",       gender: "Female",  roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: [1955, 1955], house: "Slytherin" },
+  { name: "Fenrir Greyback",       gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human","Werewolf"], firstAppearance: "Half-Blood Prince", birthYear: "Unknown", house: "-" },
+  { name: "Corban Yaxley",         gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Half-Blood Prince", birthYear: "Unknown", house: "-" },
+  { name: "Dolores Umbridge",      gender: "Female",  roles: ["Ministry Official","Hogwarts Staff"],  species: ["Human"],          firstAppearance: "Order of the Phoenix", birthYear: "Unknown", house: "Slytherin" },
+  { name: "Minerva McGonagall",    gender: "Female",  roles: ["Hogwarts Staff","Order of the Phoenix"], species: ["Human","Animagus"], firstAppearance: "Philosopher's Stone", birthYear: [1935, 1935], house: "Gryffindor" },
+  { name: "Filius Flitwick",       gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "Ravenclaw" },
+  { name: "Pomona Sprout",         gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "Hufflepuff" },
+  { name: "Gilderoy Lockhart",     gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: [1964, 1964], house: "Ravenclaw" },
+  { name: "Horace Slughorn",       gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Half-Blood Prince", birthYear: "Unknown", house: "Slytherin" },
+  { name: "Quirinus Quirrell",     gender: "Male",    roles: ["Hogwarts Staff","Dark Side"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "Ravenclaw" },
+  { name: "Sybill Trelawney",      gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Prisoner of Azkaban", birthYear: "Unknown", house: "Ravenclaw" },
+  { name: "Madam Hooch",           gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Madam Pomfrey",         gender: "Female",  roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Argus Filch",           gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Firenze",               gender: "Male",    roles: ["Hogwarts Staff"],                      species: ["Centaur"],        firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Alastor Moody",         gender: "Male",    roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: "Unknown", house: "-" },
+  { name: "Nymphadora Tonks",      gender: "Female",  roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Order of the Phoenix", birthYear: [1972, 1973], house: "Hufflepuff" },
+  { name: "Kingsley Shacklebolt",  gender: "Male",    roles: ["Order of the Phoenix","Auror"],        species: ["Human"],          firstAppearance: "Order of the Phoenix", birthYear: "Unknown", house: "-" },
+  { name: "James Potter",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human","Animagus"], firstAppearance: "Philosopher's Stone", birthYear: [1960, 1960], house: "Gryffindor" },
+  { name: "Lily Potter",           gender: "Female",  roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1960, 1960], house: "Gryffindor" },
+  { name: "Bill Weasley",          gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: [1970, 1970], house: "Gryffindor" },
+  { name: "Charlie Weasley",       gender: "Male",    roles: ["Order of the Phoenix"],                species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: [1972, 1972], house: "Gryffindor" },
+  { name: "Dobby",                 gender: "Male",    roles: ["Servant"],                             species: ["House-Elf"],      firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "-" },
+  { name: "Kreacher",              gender: "Male",    roles: ["Servant"],                             species: ["House-Elf"],      firstAppearance: "Order of the Phoenix", birthYear: "Unknown", house: "-" },
+  { name: "Winky",                 gender: "Female",  roles: ["Servant"],                             species: ["House-Elf"],      firstAppearance: "Goblet of Fire", birthYear: "Unknown", house: "-" },
+  { name: "Luna Lovegood",         gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Order of the Phoenix", birthYear: [1981, 1981], house: "Ravenclaw" },
+  { name: "Colin Creevey",         gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: [1981, 1981], house: "Gryffindor" },
+  { name: "Viktor Krum",           gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: [1976, 1976], house: "-" },
+  { name: "Fleur Delacour",        gender: "Female",  roles: ["Student"],                             species: ["Human","Veela"],  firstAppearance: "Goblet of Fire", birthYear: [1976, 1977], house: "-" },
+  { name: "Cedric Diggory",        gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: [1977, 1977], house: "Hufflepuff" },
+  { name: "Cho Chang",             gender: "Female",  roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Prisoner of Azkaban", birthYear: [1978, 1979], house: "Ravenclaw" },
+  { name: "Lavender Brown",        gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Gryffindor" },
+  { name: "Parvati Patil",         gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Gryffindor" },
+  { name: "Padma Patil",           gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Ravenclaw" },
+  { name: "Seamus Finnigan",       gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Gryffindor" },
+  { name: "Dean Thomas",           gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Gryffindor" },
+  { name: "Pansy Parkinson",       gender: "Female",  roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Slytherin" },
+  { name: "Vincent Crabbe",        gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Slytherin" },
+  { name: "Gregory Goyle",         gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1979, 1980], house: "Slytherin" },
+  { name: "Lee Jordan",            gender: "Male",    roles: ["Student"],                             species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1977, 1978], house: "Gryffindor" },
+  { name: "Oliver Wood",           gender: "Male",    roles: ["Student","Quidditch Player"],          species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1975, 1976], house: "Gryffindor" },
+  { name: "Barty Crouch Jr.",      gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: "Unknown", house: "-" },
+  { name: "Barty Crouch Sr.",      gender: "Male",    roles: ["Ministry Official"],                   species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: "Unknown", house: "-" },
+  { name: "Cornelius Fudge",       gender: "Male",    roles: ["Ministry Official"],                   species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Rita Skeeter",          gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human","Animagus"], firstAppearance: "Goblet of Fire", birthYear: [1951, 1951], house: "-" },
+  { name: "Xenophilius Lovegood",  gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Deathly Hallows", birthYear: "Unknown", house: "Ravenclaw" },
+  { name: "Aberforth Dumbledore",  gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Order of the Phoenix", birthYear: [1883, 1884], house: "Gryffindor" },
+  { name: "Garrick Ollivander",    gender: "Male",    roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "Ravenclaw" },
+  { name: "Griphook",              gender: "Male",    roles: ["Wizarding Society"],                   species: ["Goblin"],         firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Bathilda Bagshot",      gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Deathly Hallows", birthYear: "Unknown", house: "-" },
+  { name: "Andromeda Tonks",       gender: "Female",  roles: ["Wizarding Society"],                   species: ["Human"],          firstAppearance: "Deathly Hallows", birthYear: [1951, 1955], house: "Slytherin" },
+  { name: "Vernon Dursley",        gender: "Male",    roles: ["Muggle"],                              species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Petunia Dursley",       gender: "Female",  roles: ["Muggle"],                              species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Dudley Dursley",        gender: "Male",    roles: ["Muggle"],                              species: ["Human"],          firstAppearance: "Philosopher's Stone", birthYear: [1980, 1980], house: "-" },
+  { name: "Tom Riddle",            gender: "Male",    roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: [1926, 1926], house: "Slytherin" },
+  { name: "Regulus Black",         gender: "Male",    roles: ["Dark Side","Death Eater"],             species: ["Human"],          firstAppearance: "Order of the Phoenix", birthYear: [1961, 1961], house: "Slytherin" },
+  { name: "Gellert Grindelwald",   gender: "Male",    roles: ["Dark Side"],                           species: ["Human"],          firstAppearance: "Deathly Hallows", birthYear: [1882, 1883], house: "-" },
+  { name: "Teddy Lupin",           gender: "Male",    roles: ["Next Generation"],                     species: ["Human"],          firstAppearance: "Deathly Hallows", birthYear: [1998, 1998], house: "Hufflepuff" },
+  { name: "Albus Severus Potter",  gender: "Male",    roles: ["Next Generation","Student"],           species: ["Human"],          firstAppearance: "Deathly Hallows", birthYear: [2005, 2006], house: "Slytherin" },
+  { name: "Helga Hufflepuff",      gender: "Female",  roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "Hufflepuff" },
+  { name: "Godric Gryffindor",     gender: "Male",    roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "Gryffindor" },
+  { name: "Salazar Slytherin",     gender: "Male",    roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "Slytherin" },
+  { name: "Rowena Ravenclaw",      gender: "Female",  roles: ["Founder"],                             species: ["Human"],          firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "Ravenclaw" },
+  { name: "Madam Maxime",          gender: "Female",  roles: ["School Head"],                         species: ["Human","Giant"],  firstAppearance: "Goblet of Fire", birthYear: "Unknown", house: "-" },
+  { name: "Igor Karkaroff",        gender: "Male",    roles: ["School Head","Death Eater"],           species: ["Human"],          firstAppearance: "Goblet of Fire", birthYear: "Unknown", house: "-" },
+  { name: "Nearly Headless Nick",  gender: "Male",    roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "Gryffindor" },
+  { name: "Moaning Myrtle",        gender: "Female",  roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Chamber of Secrets", birthYear: [1929, 1929], house: "Ravenclaw" },
+  { name: "The Bloody Baron",      gender: "Male",    roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "Slytherin" },
+  { name: "Peeves",                gender: "Male",    roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Sorting Hat",           gender: "Unknown", roles: ["Hogwarts Resident"],                   species: ["Spirit/Other"],   firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Nagini",                gender: "Female",  roles: ["Dark Side","Pet"],                     species: ["Creature/Animal"], firstAppearance: "Goblet of Fire", birthYear: "Unknown", house: "-" },
+  { name: "Scabbers",              gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal","Animagus"], firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Crookshanks",           gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Prisoner of Azkaban", birthYear: "Unknown", house: "-" },
+  { name: "Hedwig",                gender: "Female",  roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Errol",                 gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "-" },
+  { name: "Trevor",                gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Fang",                  gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Mrs. Norris",           gender: "Female",  roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Fawkes",                gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "-" },
+  { name: "Buckbeak",              gender: "Male",    roles: ["Pet"],                                 species: ["Creature/Animal"], firstAppearance: "Prisoner of Azkaban", birthYear: "Unknown", house: "-" },
+  { name: "Aragog",                gender: "Male",    roles: ["Creature"],                            species: ["Creature/Animal"], firstAppearance: "Chamber of Secrets", birthYear: "Unknown", house: "-" },
+  { name: "Fluffy",                gender: "Male",    roles: ["Creature"],                            species: ["Creature/Animal"], firstAppearance: "Philosopher's Stone", birthYear: "Unknown", house: "-" },
+  { name: "Grawp",                 gender: "Male",    roles: ["Creature"],                            species: ["Giant"],           firstAppearance: "Order of the Phoenix", birthYear: "Unknown", house: "-" },
 ];
 
 const BOOK_ORDER = [
@@ -652,6 +781,115 @@ const SPELLS = [
 
 const DIFFICULTIES = ["Easy", "Medium", "Hard"];
 
+const MOVIES = [
+  "Harry Potter and the Philosopher's Stone",
+  "Harry Potter and the Chamber of Secrets",
+  "Harry Potter and the Prisoner of Azkaban",
+  "Harry Potter and the Goblet of Fire",
+  "Harry Potter and the Order of the Phoenix",
+  "Harry Potter and the Half-Blood Prince",
+  "Harry Potter and the Deathly Hallows: Part 1",
+  "Harry Potter and the Deathly Hallows: Part 2"
+];
+
+const QUOTES = [
+  { quote: 'You\'re a wizard, Harry.', speaker: 'Rubeus Hagrid', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hagrid tells Harry his true identity in the hut on the rock.' },
+  { quote: 'I solemnly swear that I am up to no good.', speaker: 'Harry Potter', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Harry activates the Marauder\'s Map in a classroom.' },
+  { quote: 'Wingardium Leviosa!', speaker: 'Hermione Granger', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hermione demonstrates the levitation charm in Charms class.' },
+  { quote: 'There\'s no place like Hogwarts.', speaker: 'Harry Potter', movie: "Harry Potter and the Philosopher's Stone", situation: 'Harry looks out at Hogwarts as the school year ends.' },
+  { quote: 'Yer a wizard, Harry.', speaker: 'Rubeus Hagrid', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hagrid informs Harry of his magical heritage.' },
+  { quote: 'It\'s LeviOsa, not LeviosAR!', speaker: 'Hermione Granger', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hermione corrects Ron\'s pronunciation in Charms class.' },
+  { quote: 'Dobby is free!', speaker: 'Dobby', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Dobby receives Lucius Malfoy\'s sock inside Tom Riddle\'s diary.' },
+  { quote: 'Why spiders? Why couldn\'t it be \'follow the butterflies\'?', speaker: 'Ron Weasley', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Ron complains while following spiders into the Forbidden Forest.' },
+  { quote: 'I am Lord Voldemort.', speaker: 'Tom Riddle', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Tom Riddle rearranges the letters of his name in the Chamber of Secrets.' },
+  { quote: 'Mischief managed.', speaker: 'Harry Potter', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Harry deactivates the Marauder\'s Map.' },
+  { quote: 'Turn to page 394.', speaker: 'Severus Snape', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Snape takes over Defense Against the Dark Arts class.' },
+  { quote: 'He\'s back! Voldemort\'s back!', speaker: 'Harry Potter', movie: 'Harry Potter and the Goblet of Fire', situation: 'Harry returns with Cedric\'s body from the graveyard.' },
+  { quote: 'I am the Half-Blood Prince.', speaker: 'Severus Snape', movie: 'Harry Potter and the Half-Blood Prince', situation: 'Snape reveals his true identity to Harry on the grounds.' },
+  { quote: 'After all this time?', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Dumbledore asks Snape about his patronus in Snape\'s memories.' },
+  { quote: 'Always.', speaker: 'Severus Snape', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Snape expresses his enduring love for Lily Potter.' },
+  { quote: 'Not my daughter, you bitch!', speaker: 'Molly Weasley', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Molly defends Ginny from Bellatrix Lestrange during the Battle of Hogwarts.' },
+  { quote: 'Fear of a name only increases fear of the thing itself.', speaker: 'Hermione Granger', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Hermione speaks up about using Voldemort\'s real name.' },
+  { quote: 'When in doubt, go to the library.', speaker: 'Ron Weasley', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Ron comments on Hermione\'s default solution to problems.' },
+  { quote: 'I\'m going to bed before either of you come up with another clever idea to get us killed, or worse, expelled.', speaker: 'Hermione Granger', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hermione scolds Harry and Ron after avoiding Fluffy.' },
+  { quote: 'You\'ll be next, Mudbloods!', speaker: 'Draco Malfoy', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Malfoy speaks after seeing the message written in blood.' },
+  { quote: 'I\'ll be in my room, making no noise and pretending I don\'t exist.', speaker: 'Harry Potter', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Harry promises Uncle Vernon before the Dursleys\' dinner party.' },
+  { quote: 'Expecto Patronum!', speaker: 'Harry Potter', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Harry casts his Patronus across the lake to save Sirius.' },
+  { quote: 'I\'m a what?', speaker: 'Harry Potter', movie: "Harry Potter and the Philosopher's Stone", situation: 'Harry responds when Hagrid tells him he\'s a wizard.' },
+  { quote: 'Have a biscuit, Potter.', speaker: 'Minerva McGonagall', movie: 'Harry Potter and the Order of the Phoenix', situation: 'McGonagall offers Harry a biscuit during a disciplinary discussion.' },
+  { quote: 'Honestly, woman, you call yourself our mother?', speaker: 'Fred Weasley', movie: "Harry Potter and the Philosopher's Stone", situation: 'Fred jokes with Mrs. Weasley at King\'s Cross station.' },
+  { quote: 'It does not do to dwell on dreams and forget to live.', speaker: 'Albus Dumbledore', movie: "Harry Potter and the Philosopher's Stone", situation: 'Dumbledore advises Harry at the Mirror of Erised.' },
+  { quote: 'Dobby has no master! Dobby is a free elf!', speaker: 'Dobby', movie: 'Harry Potter and the Deathly Hallows: Part 1', situation: 'Dobby confronts Bellatrix at Malfoy Manor.' },
+  { quote: 'Happiness can be found even in the darkest of times, if one only remembers to turn on the light.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Dumbledore speaks to the students during the start-of-term feast.' },
+  { quote: 'Why is it always you three?', speaker: 'Minerva McGonagall', movie: 'Harry Potter and the Half-Blood Prince', situation: 'McGonagall asks Harry, Ron, and Hermione after Katie Bell\'s curse.' },
+  { quote: 'Bloody hell!', speaker: 'Ron Weasley', movie: "Harry Potter and the Philosopher's Stone", situation: 'Ron\'s signature reaction when seeing something incredible.' },
+  { quote: 'I can do math!', speaker: 'Ron Weasley', movie: "Harry Potter and the Philosopher's Stone", situation: 'Ron responds during the giant chess game.' },
+  { quote: 'There is no good and evil, there is only power and those too weak to seek it.', speaker: 'Lord Voldemort', movie: "Harry Potter and the Philosopher's Stone", situation: 'Quirrell unwraps his turban to reveal Voldemort.' },
+  { quote: 'Training for the ballet, Potter?', speaker: 'Draco Malfoy', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Malfoy taunts Harry during Quidditch practice.' },
+  { quote: 'Stop, stop, stop! You\'re going to take someone\'s eye out.', speaker: 'Hermione Granger', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hermione scolds Ron about his wand motions in Charms class.' },
+  { quote: 'The world isn\'t split into good people and Death Eaters.', speaker: 'Sirius Black', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Sirius reassures Harry at Grimmauld Place.' },
+  { quote: 'Give her hell from us, Peeves.', speaker: 'Fred Weasley', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Fred and George leave Hogwarts after disrupting the O.W.L.s.' },
+  { quote: 'I mean, it\'s sort of exciting, isn\'t it? Breaking the rules.', speaker: 'Hermione Granger', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Hermione suggests forming Dumbledore\'s Army.' },
+  { quote: 'Words are, in my not-so-humble opinion, our most inexhaustible source of magic.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Dumbledore speaks to Harry in King\'s Cross station afterlife.' },
+  { quote: 'Clearly, fame isn\'t everything.', speaker: 'Severus Snape', movie: "Harry Potter and the Philosopher's Stone", situation: 'Snape mocks Harry during their first Potions lesson.' },
+  { quote: 'Ah, music! A magic beyond all we do here!', speaker: 'Albus Dumbledore', movie: "Harry Potter and the Philosopher's Stone", situation: 'Dumbledore reacts after the school song.' },
+  { quote: 'I\'m holy. I\'m holey, Fred, get it?', speaker: 'George Weasley', movie: 'Harry Potter and the Deathly Hallows: Part 1', situation: 'George jokes about losing his ear after the Battle of the Seven Potters.' },
+  { quote: 'I\'ve always wanted to use that spell.', speaker: 'Minerva McGonagall', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'McGonagall casts Piertotum Locomotor to defend Hogwarts.' },
+  { quote: 'Numbing the pain for a while will make it worse when you finally feel it.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Goblet of Fire', situation: 'Dumbledore speaks to Harry in the hospital wing.' },
+  { quote: 'I am what I am, an\' I\'m not ashamed.', speaker: 'Rubeus Hagrid', movie: 'Harry Potter and the Goblet of Fire', situation: 'Hagrid talks about his half-giant heritage.' },
+  { quote: 'It is the quality of one\'s convictions that determines success, not the number of followers.', speaker: 'Remus Lupin', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Lupin addresses the Order of the Phoenix.' },
+  { quote: 'You\'re a fool, Harry Potter, and you will lose everything.', speaker: 'Lord Voldemort', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Voldemort taunts Harry in the Ministry Atrium.' },
+  { quote: 'There is no need to call me \'sir\', Professor.', speaker: 'Harry Potter', movie: 'Harry Potter and the Half-Blood Prince', situation: 'Harry responds to Snape during Defense Against the Dark Arts.' },
+  { quote: 'How dare you stand where he stood!', speaker: 'Harry Potter', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Harry confronts Snape in the Great Hall.' },
+  { quote: 'She\'s a nightmare, honestly!', speaker: 'Ron Weasley', movie: "Harry Potter and the Philosopher's Stone", situation: 'Ron talks about Hermione after Charms class.' },
+  { quote: 'What\'s life without a little risk?', speaker: 'Sirius Black', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Sirius speaks to Harry at King\'s Cross station in dog form.' },
+  { quote: 'You know, Minister, I disagree with Dumbledore on many counts... but you cannot deny he\'s got style.', speaker: 'Kingsley Shacklebolt', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Kingsley comments after Dumbledore escapes Fudge.' },
+  { quote: 'My father will hear about this!', speaker: 'Draco Malfoy', movie: "Harry Potter and the Philosopher's Stone", situation: 'Malfoy threatens Hagrid in the Forbidden Forest.' },
+  { quote: 'I\'ll take Harry, then.', speaker: 'Remus Lupin', movie: 'Harry Potter and the Deathly Hallows: Part 1', situation: 'Lupin organizes the departure strategy from Privet Drive.' },
+  { quote: 'It\'s strange how clear things become when you\'re about to die.', speaker: 'Severus Snape', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Snape speaks in his final moments.' },
+  { quote: 'Control your emotions! Discipline your mind!', speaker: 'Severus Snape', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Snape instructs Harry during Occlumency lessons.' },
+  { quote: 'I\'ve got a present for you.', speaker: 'Dudley Dursley', movie: "Harry Potter and the Philosopher's Stone", situation: 'Dudley taunts Harry on his birthday.' },
+  { quote: 'Let us step out into the night and pursue that flighty temptress, adventure.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Half-Blood Prince', situation: 'Dumbledore leads Harry out of Privet Drive.' },
+  { quote: 'Just because you have the emotional range of a teaspoon doesn\'t mean we all have!', speaker: 'Hermione Granger', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Hermione retorts to Ron about Cho\'s feelings.' },
+  { quote: 'You\'re a hero, Harry!', speaker: 'Seamus Finnigan', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Seamus apologizes to Harry in the Gryffindor common room.' },
+  { quote: 'Great man, Dumbledore.', speaker: 'Rubeus Hagrid', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hagrid defends Dumbledore against Uncle Vernon.' },
+  { quote: 'I never thought I\'d see the day when a Malfoy was put in his place.', speaker: 'Ron Weasley', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Ron reacts to Hermione punching Malfoy.' },
+  { quote: 'I hope you\'re pleased with yourselves.', speaker: 'Hermione Granger', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hermione scolds Harry and Ron after Fluffy.' },
+  { quote: 'No extra credit will be given for destruction of school property.', speaker: 'Minerva McGonagall', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'McGonagall instructs the students before the battle.' },
+  { quote: 'Of course it is happening inside your head, Harry, but why on earth should that mean that it is not real?', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Dumbledore answers Harry at King\'s Cross station afterlife.' },
+  { quote: 'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.', speaker: 'Albus Dumbledore', movie: "Harry Potter and the Philosopher's Stone", situation: 'Dumbledore awards Neville 10 points at the end-of-term feast.' },
+  { quote: 'A child\'s voice, however honest and true, is meaningless to those who\'ve forgotten how to listen.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Dumbledore speaks to Hermione and Harry about saving Sirius.' },
+  { quote: 'I can teach you how to bottle fame, brew glory, even stopper death.', speaker: 'Severus Snape', movie: "Harry Potter and the Philosopher's Stone", situation: 'Snape delivers his introductory speech in Potions class.' },
+  { quote: 'Curious... very curious...', speaker: 'Garrick Ollivander', movie: "Harry Potter and the Philosopher's Stone", situation: 'Ollivander notes the twin cores of Harry and Voldemort\'s wands.' },
+  { quote: 'The mind is not a book, to be opened at will and examined at leisure.', speaker: 'Severus Snape', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Snape explains Legilimency to Harry.' },
+  { quote: 'I would trust Hagrid with my life.', speaker: 'Albus Dumbledore', movie: "Harry Potter and the Philosopher's Stone", situation: 'Dumbledore reassures McGonagall outside Privet Drive.' },
+  { quote: 'To the well-organized mind, death is but the next great adventure.', speaker: 'Albus Dumbledore', movie: "Harry Potter and the Philosopher's Stone", situation: 'Dumbledore discusses Nicolas Flamel and the Stone.' },
+  { quote: 'It is our choices, Harry, that show what we truly are, far more than our abilities.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Chamber of Secrets', situation: 'Dumbledore comforts Harry after the duel in the Chamber.' },
+  { quote: 'Understanding is the first step to acceptance, and only with acceptance can there be recovery.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Goblet of Fire', situation: 'Dumbledore addresses the school after Cedric\'s death.' },
+  { quote: 'I must not tell lies.', speaker: 'Harry Potter', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Harry carves the words into his hand during Umbridge\'s detention.' },
+  { quote: 'You have your mother\'s eyes.', speaker: 'Severus Snape', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Snape speaks his final words to Harry in the Boathouse.' },
+  { quote: 'The ones that love us never really leave us. You can always find them, in here.', speaker: 'Sirius Black', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Sirius points to Harry\'s heart before departing on Buckbeak.' },
+  { quote: 'I will not be bullied into silence!', speaker: 'Harry Potter', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Harry shouts back at Umbridge during Defense class.' },
+  { quote: 'Magic is might.', speaker: 'Corban Yaxley', movie: 'Harry Potter and the Deathly Hallows: Part 1', situation: 'Yaxley references the new inscription at the Ministry of Magic.' },
+  { quote: 'Not all wizards are good.', speaker: 'Rubeus Hagrid', movie: "Harry Potter and the Philosopher's Stone", situation: 'Hagrid explains dark wizards to Harry at the Leaky Cauldron.' },
+  { quote: 'Do not pity the dead, Harry. Pity the living, and, above all, those who live without love.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Dumbledore gives final guidance to Harry at King\'s Cross.' },
+  { quote: 'Youth cannot know how age thinks and feels. But old men are guilty if they forget what it was to be young.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Dumbledore talks to Harry after Sirius\'s death.' },
+  { quote: 'There\'s no story without a twist.', speaker: 'Rita Skeeter', movie: 'Harry Potter and the Goblet of Fire', situation: 'Rita Skeeter interviews Harry in the broom closet.' },
+  { quote: 'You have a brave soul, young man.', speaker: 'Horace Slughorn', movie: 'Harry Potter and the Half-Blood Prince', situation: 'Slughorn compliments Harry when giving him the memory.' },
+  { quote: 'The Ministry has fallen. Scrimgeour is dead. They are coming.', speaker: 'Kingsley Shacklebolt', movie: 'Harry Potter and the Deathly Hallows: Part 1', situation: 'Kingsley\'s Patronus message interrupts Bill and Fleur\'s wedding.' },
+  { quote: 'It\'s a strange thing, Harry, but perhaps those who are best suited to power are those who have never sought it.', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Dumbledore reflects on power during his conversation with Harry.' },
+  { quote: 'Every great wizard in history has started out as nothing more than what we are now.', speaker: 'Harry Potter', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Harry addresses the members of Dumbledore\'s Army.' },
+  { quote: 'We\'ve all got both light and dark inside us.', speaker: 'Sirius Black', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Sirius counsels Harry about his connection to Voldemort.' },
+  { quote: 'Look at me!', speaker: 'Severus Snape', movie: 'Harry Potter and the Deathly Hallows: Part 2', situation: 'Snape asks Harry to look at him as he dies.' },
+  { quote: 'I always knew I was special.', speaker: 'Tom Riddle', movie: 'Harry Potter and the Half-Blood Prince', situation: 'Young Tom Riddle tells Dumbledore at Wool\'s Orphanage.' },
+  { quote: 'I\'m sorry, Professor. I must not tell lies.', speaker: 'Harry Potter', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Harry quotes Umbridge back to her as she is taken by centaurs.' },
+  { quote: 'Severus, please...', speaker: 'Albus Dumbledore', movie: 'Harry Potter and the Half-Blood Prince', situation: 'Dumbledore\'s final words before Snape casts Avada Kedavra.' },
+  { quote: 'When you\'ve seen as much of life as I have, you under-estimate the power of obsessive love.', speaker: 'Horace Slughorn', movie: 'Harry Potter and the Half-Blood Prince', situation: 'Slughorn discusses love potions in Potions class.' },
+  { quote: 'I think I can tell the wrong sort for myself, thanks.', speaker: 'Harry Potter', movie: "Harry Potter and the Philosopher's Stone", situation: 'Harry rejects Draco Malfoy\'s handshake on the Hogwarts Express.' },
+  { quote: 'He was their friend!', speaker: 'Harry Potter', movie: 'Harry Potter and the Prisoner of Azkaban', situation: 'Harry reacts furiously after overhearing about Sirius Black in the Three Broomsticks.' },
+  { quote: 'Your father was a swine!', speaker: 'Severus Snape', movie: 'Harry Potter and the Order of the Phoenix', situation: 'Snape snaps at Harry during Occlumency practice.' }
+];
+
 // ─── Daily target ─────────────────────────────────────────────────────────────
 function seededRNG(seed) {
   let s = seed >>> 0;
@@ -739,6 +977,16 @@ const STAGE2_STEPS = [
 ];
 const STAGE2_QUESTIONS = STAGE2_STEPS.map(step => buildStage2Question(step, STAGE2_SEEDS[step.difficulty]));
 
+// ─── Stage 3: daily quote question ────────────────────────────────────────────
+const QUOTE_ORDER = buildShuffledOrder(QUOTES.length, 0xA17CE55);
+
+function pickDailyQuote() {
+  const day = dayNumber();
+  return QUOTES[QUOTE_ORDER[((day % QUOTES.length) + QUOTES.length) % QUOTES.length]];
+}
+
+const DAILY_QUOTE = pickDailyQuote();
+
 // ─── State ────────────────────────────────────────────────────────────────────
 const guesses = [];
 let selectedName = null;
@@ -753,6 +1001,15 @@ let stage2CurrentChosenName = null;
 let stage2Finished = false;
 let stage2StatsRecorded = false;
 
+let stage3SpeakerChosen = null;
+let stage3SpeakerCorrect = null;
+let stage3SpeakerAnswered = false;
+let stage3MovieChosen = null;
+let stage3MovieCorrect = null;
+let stage3MovieAnswered = false;
+let stage3Finished = false;
+let stage3StatsRecorded = false;
+
 // ─── Comparison ───────────────────────────────────────────────────────────────
 function setsEqual(a, b) {
   return a.length === b.length && [...a].sort().join('|') === [...b].sort().join('|');
@@ -760,6 +1017,21 @@ function setsEqual(a, b) {
 
 function setsOverlap(a, b) {
   return a.some(v => b.includes(v));
+}
+
+function compareBirthYear(guessRange, targetRange) {
+  if (guessRange === 'Unknown' || targetRange === 'Unknown') return { color: 'red', arrow: '' };
+  const [gMin, gMax] = guessRange;
+  const [tMin, tMax] = targetRange;
+  if (gMin === tMin && gMax === tMax) return { color: 'green', arrow: '' };
+  if (gMin <= tMax && tMin <= gMax) return { color: 'orange', arrow: '' };
+  return { color: 'red', arrow: gMax < tMin ? '↑' : '↓' };
+}
+
+function formatBirthYear(birthYear) {
+  if (birthYear === 'Unknown') return 'Unknown';
+  const [min, max] = birthYear;
+  return min === max ? String(min) : `${min}–${max}`;
 }
 
 function compare(guess) {
@@ -770,6 +1042,8 @@ function compare(guess) {
     gender:  guess.gender === t.gender ? 'green' : 'red',
     roles:   setsEqual(guess.roles, t.roles)   ? 'green' : setsOverlap(guess.roles, t.roles)   ? 'orange' : 'red',
     species: setsEqual(guess.species, t.species) ? 'green' : setsOverlap(guess.species, t.species) ? 'orange' : 'red',
+    house:   guess.house === t.house ? 'green' : 'red',
+    birthYear: compareBirthYear(guess.birthYear, t.birthYear),
     book: gi === ti ? { color: 'green', arrow: '' } : { color: 'red', arrow: gi < ti ? '↑' : '↓' }
   };
 }
@@ -799,6 +1073,8 @@ function renderRow(char, res) {
   addCell(res.gender,  char.gender,                    '');
   addCell(res.roles,   char.roles.join(', '),           '');
   addCell(res.species, char.species.join(', '),         '');
+  addCell(res.house,   char.house,                      '');
+  addCell(res.birthYear.color, formatBirthYear(char.birthYear), res.birthYear.arrow);
   addCell(res.book.color, char.firstAppearance, res.book.arrow);
 
   tbody.insertBefore(tr, tbody.firstChild);
@@ -1039,13 +1315,13 @@ function renderStage2Summary() {
     `You found ${TARGET.name} in ${guesses.length} guess${guesses.length === 1 ? '' : 'es'}!`;
   document.getElementById('stage2-summary-score').textContent =
     `You got ${correctCount}/${STAGE2_STEPS.length} correct in the Spell Challenge!`;
-  document.getElementById('stage2-summary-tomorrow').textContent =
-    'Come back tomorrow for a new character and new spells!';
+  document.getElementById('stage2-summary-tomorrow').textContent = '';
 
   document.getElementById('stage2-summary').classList.add('visible');
 
   displayStage1StatsForSummary();
   displayStage2Stats();
+  restoreStage3Progress();
 
   return correctCount;
 }
@@ -1083,6 +1359,12 @@ async function finishStage2() {
       console.error('finishStage2 write failed:', e);
     }
     saveStage2Progress();
+    // Re-read both stats lines now that this write has landed. The initial reads kicked off
+    // from renderStage2Summary() race against this same setDoc (a concurrent getDoc + setDoc on
+    // the same dailyStats doc can resolve with a stale/partial snapshot missing the other
+    // field-group's data), so both are re-fetched here to guarantee the final values are shown
+    // instead of staying blank/stale until a page reload.
+    displayStage1StatsForSummary();
     displayStage2Stats();
   }
 }
@@ -1135,6 +1417,337 @@ document.getElementById('stage2-start-btn').addEventListener('click', () => {
   showStage2();
   renderStage2Question();
   document.getElementById('stage2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+// ─── Stage 3: Quote Challenge ──────────────────────────────────────────────────
+function stage3StorageKey() {
+  return 'hpdle_stage3_' + todayKey();
+}
+
+function loadStage3Progress() {
+  try {
+    const raw = localStorage.getItem(stage3StorageKey());
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveStage3Progress() {
+  try {
+    localStorage.setItem(stage3StorageKey(), JSON.stringify({
+      speakerChosen: stage3SpeakerChosen,
+      speakerCorrect: stage3SpeakerCorrect,
+      speakerAnswered: stage3SpeakerAnswered,
+      movieChosen: stage3MovieChosen,
+      movieCorrect: stage3MovieCorrect,
+      movieAnswered: stage3MovieAnswered,
+      finished: stage3Finished,
+      statsRecorded: stage3StatsRecorded
+    }));
+  } catch (e) {
+    // localStorage unavailable/throwing — degrade to in-memory-only
+  }
+}
+
+function showStage3() {
+  document.getElementById('stage3').classList.add('visible');
+  document.getElementById('stage2').classList.remove('visible');
+}
+
+function renderStage3Question() {
+  document.getElementById('stage3-question').style.display = '';
+  document.getElementById('stage3-summary').classList.remove('visible');
+  document.getElementById('stage3-quote-text').textContent = `"${DAILY_QUOTE.quote}"`;
+
+  document.getElementById('stage3-speaker-result').classList.remove('visible');
+  document.getElementById('stage3-movie-result').classList.remove('visible');
+  document.getElementById('stage3-movie-step').style.display = 'none';
+
+  const speakerInput = document.getElementById('stage3-speaker-input');
+  speakerInput.value = '';
+  speakerInput.disabled = false;
+  document.getElementById('stage3-speaker-btn').disabled = false;
+
+  const movieInput = document.getElementById('stage3-movie-input');
+  movieInput.value = '';
+  movieInput.disabled = false;
+  document.getElementById('stage3-movie-btn').disabled = false;
+}
+
+function renderStage3SpeakerResult(name, correct) {
+  document.getElementById('stage3-speaker-input').disabled = true;
+  document.getElementById('stage3-speaker-btn').disabled = true;
+  const textEl = document.getElementById('stage3-speaker-result-text');
+  textEl.textContent = correct
+    ? `Correct! ${DAILY_QUOTE.speaker} said that.`
+    : `Not quite — it was ${DAILY_QUOTE.speaker}.`;
+  textEl.className = correct ? 'correct' : 'wrong';
+  document.getElementById('stage3-speaker-result').classList.add('visible');
+  document.getElementById('stage3-movie-step').style.display = '';
+}
+
+function submitStage3SpeakerGuess(name) {
+  if (stage3SpeakerAnswered) return;
+  const correct = name === DAILY_QUOTE.speaker;
+  stage3SpeakerChosen = name;
+  stage3SpeakerCorrect = correct;
+  stage3SpeakerAnswered = true;
+  saveStage3Progress();
+  renderStage3SpeakerResult(name, correct);
+}
+
+function renderStage3MovieResult(title, correct) {
+  document.getElementById('stage3-movie-input').disabled = true;
+  document.getElementById('stage3-movie-btn').disabled = true;
+  const textEl = document.getElementById('stage3-movie-result-text');
+  textEl.textContent = correct
+    ? `Correct! It's from ${DAILY_QUOTE.movie}.`
+    : `Not quite — it's from ${DAILY_QUOTE.movie}.`;
+  textEl.className = correct ? 'correct' : 'wrong';
+  document.getElementById('stage3-situation-text').textContent = DAILY_QUOTE.situation;
+  document.getElementById('stage3-movie-result').classList.add('visible');
+}
+
+function submitStage3MovieGuess(title) {
+  if (stage3MovieAnswered) return;
+  const correct = title === DAILY_QUOTE.movie;
+  stage3MovieChosen = title;
+  stage3MovieCorrect = correct;
+  stage3MovieAnswered = true;
+  saveStage3Progress();
+  renderStage3MovieResult(title, correct);
+}
+
+function stage3StatsDocRef() {
+  return doc(db, 'dailyStats', todayKey());
+}
+
+function renderStage3Summary() {
+  const correctCount = (stage3SpeakerCorrect ? 1 : 0) + (stage3MovieCorrect ? 1 : 0);
+  const stage2CorrectCount = stage2Results.filter(r => r && r.correct).length;
+
+  document.getElementById('stage3-question').style.display = 'none';
+  document.getElementById('stage3-summary-character').textContent =
+    `You found ${TARGET.name} in ${guesses.length} guess${guesses.length === 1 ? '' : 'es'}!`;
+  document.getElementById('stage3-summary-spell-score').textContent =
+    `You got ${stage2CorrectCount}/${STAGE2_STEPS.length} correct in the Spell Challenge!`;
+  document.getElementById('stage3-summary-score').textContent =
+    `You got ${correctCount}/2 correct in the Quote Challenge!`;
+  document.getElementById('stage3-summary').classList.add('visible');
+
+  displayStage1StatsForFinalSummary();
+  displayStage2StatsForFinalSummary();
+  displayStage3Stats();
+
+  return correctCount;
+}
+
+async function finishStage3() {
+  stage3Finished = true;
+  const correctCount = renderStage3Summary();
+
+  if (!stage3StatsRecorded) {
+    try {
+      await setDoc(stage3StatsDocRef(), {
+        stage3FinishedCount: increment(1),
+        stage3CorrectAnswers: increment(correctCount),
+        stage3TotalAnswers: increment(2)
+      }, { merge: true });
+      stage3StatsRecorded = true;
+    } catch (e) {
+      // write failed (offline/network/rules) — statsRecorded stays false, retried on next load
+      console.error('finishStage3 write failed:', e);
+    }
+    saveStage3Progress();
+    // Re-read all three stats lines now that this write has landed — see the matching comment
+    // in finishStage2() for why the initial reads (fired from renderStage3Summary()) can race
+    // against this same setDoc and come back stale/blank.
+    displayStage1StatsForFinalSummary();
+    displayStage2StatsForFinalSummary();
+    displayStage3Stats();
+  }
+}
+
+async function displayStage3Stats() {
+  const el = document.getElementById('stage3-summary-stats');
+  if (!el) return;
+  try {
+    const snap = await getDoc(stage3StatsDocRef());
+    if (!snap.exists()) { el.textContent = ''; return; }
+    const { stage3FinishedCount, stage3CorrectAnswers, stage3TotalAnswers } = snap.data();
+    if (!stage3FinishedCount) { el.textContent = ''; return; }
+    const pct = stage3TotalAnswers ? Math.round((stage3CorrectAnswers / stage3TotalAnswers) * 100) : 0;
+    el.textContent = `${stage3FinishedCount} ${stage3FinishedCount === 1 ? 'person has' : 'people have'} finished the Quote Challenge today, answering ${pct}% correctly.`;
+  } catch (e) {
+    el.textContent = '';
+    console.error('displayStage3Stats failed:', e);
+  }
+}
+
+async function displayStage1StatsForFinalSummary() {
+  const el = document.getElementById('stage3-summary-character-stats');
+  if (!el) return;
+  try {
+    const snap = await getDoc(statsDocRef());
+    if (!snap.exists()) { el.textContent = ''; return; }
+    const { solvedCount, totalGuesses } = snap.data();
+    if (!solvedCount) { el.textContent = ''; return; }
+    const avg = (totalGuesses / solvedCount).toFixed(1);
+    el.textContent = `${solvedCount} ${solvedCount === 1 ? 'person has' : 'people have'} solved today's puzzle so far, averaging ${avg} guesses.`;
+  } catch (e) {
+    el.textContent = '';
+    console.error('displayStage1StatsForFinalSummary failed:', e);
+  }
+}
+
+async function displayStage2StatsForFinalSummary() {
+  const el = document.getElementById('stage3-summary-spell-stats');
+  if (!el) return;
+  try {
+    const snap = await getDoc(stage2StatsDocRef());
+    if (!snap.exists()) { el.textContent = ''; return; }
+    const { stage2FinishedCount, stage2CorrectAnswers, stage2TotalAnswers } = snap.data();
+    if (!stage2FinishedCount) { el.textContent = ''; return; }
+    const pct = stage2TotalAnswers ? Math.round((stage2CorrectAnswers / stage2TotalAnswers) * 100) : 0;
+    el.textContent = `${stage2FinishedCount} ${stage2FinishedCount === 1 ? 'person has' : 'people have'} finished the Spell Challenge today, answering ${pct}% correctly.`;
+  } catch (e) {
+    el.textContent = '';
+    console.error('displayStage2StatsForFinalSummary failed:', e);
+  }
+}
+
+function restoreStage3Progress() {
+  const data = loadStage3Progress();
+  if (!data) {
+    document.getElementById('stage3-start-btn').style.display = 'inline-block';
+    return;
+  }
+
+  showStage3();
+  stage3SpeakerChosen = data.speakerChosen || null;
+  stage3SpeakerCorrect = !!data.speakerCorrect;
+  stage3SpeakerAnswered = !!data.speakerAnswered;
+  stage3MovieChosen = data.movieChosen || null;
+  stage3MovieCorrect = !!data.movieCorrect;
+  stage3MovieAnswered = !!data.movieAnswered;
+  stage3Finished = !!data.finished;
+  stage3StatsRecorded = !!data.statsRecorded;
+
+  if (stage3Finished) {
+    if (!stage3StatsRecorded) {
+      finishStage3();
+    } else {
+      renderStage3Summary();
+    }
+    return;
+  }
+
+  renderStage3Question();
+  if (stage3SpeakerAnswered) {
+    renderStage3SpeakerResult(stage3SpeakerChosen, stage3SpeakerCorrect);
+  }
+  if (stage3MovieAnswered) {
+    renderStage3MovieResult(stage3MovieChosen, stage3MovieCorrect);
+  }
+}
+
+function setupAutocomplete({ inputEl, listEl, buttonEl, options, onSubmit }) {
+  let selected = null;
+  let activeIdx = -1;
+
+  function showOptions(query) {
+    listEl.innerHTML = '';
+    activeIdx = -1;
+    const q = query.toLowerCase().trim();
+    if (!q) { listEl.classList.remove('visible'); return; }
+    const hits = options.filter(n => n.toLowerCase().startsWith(q)).slice(0, 8);
+    if (!hits.length) { listEl.classList.remove('visible'); return; }
+    hits.forEach(name => {
+      const div = document.createElement('div');
+      div.className = 'autocomplete-item';
+      div.textContent = name;
+      div.addEventListener('mousedown', e => { e.preventDefault(); pick(name); });
+      listEl.appendChild(div);
+    });
+    listEl.classList.add('visible');
+  }
+
+  function pick(name) {
+    selected = name;
+    inputEl.value = name;
+    listEl.classList.remove('visible');
+    activeIdx = -1;
+  }
+
+  function resolveExact() {
+    if (selected) return selected;
+    const exact = options.find(n => n.toLowerCase() === inputEl.value.trim().toLowerCase());
+    return exact || null;
+  }
+
+  function submit() {
+    const name = resolveExact();
+    if (!name) return;
+    selected = null;
+    onSubmit(name);
+  }
+
+  inputEl.addEventListener('input', () => {
+    selected = null;
+    showOptions(inputEl.value);
+  });
+
+  inputEl.addEventListener('keydown', e => {
+    const items = listEl.querySelectorAll('.autocomplete-item');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      if (items[activeIdx]) selected = items[activeIdx].textContent;
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, 0);
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      if (items[activeIdx]) selected = items[activeIdx].textContent;
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      submit();
+    } else if (e.key === 'Escape') {
+      listEl.classList.remove('visible');
+    }
+  });
+
+  inputEl.addEventListener('blur', () => setTimeout(() => listEl.classList.remove('visible'), 150));
+
+  buttonEl.addEventListener('click', submit);
+}
+
+setupAutocomplete({
+  inputEl: document.getElementById('stage3-speaker-input'),
+  listEl: document.getElementById('stage3-speaker-list'),
+  buttonEl: document.getElementById('stage3-speaker-btn'),
+  options: CHARACTERS.map(c => c.name),
+  onSubmit: submitStage3SpeakerGuess
+});
+
+setupAutocomplete({
+  inputEl: document.getElementById('stage3-movie-input'),
+  listEl: document.getElementById('stage3-movie-list'),
+  buttonEl: document.getElementById('stage3-movie-btn'),
+  options: MOVIES,
+  onSubmit: submitStage3MovieGuess
+});
+
+document.getElementById('stage3-start-btn').addEventListener('click', () => {
+  showStage3();
+  renderStage3Question();
+  document.getElementById('stage3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('stage3-finish-btn').addEventListener('click', () => {
+  finishStage3();
+  document.getElementById('stage3-summary').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 // ─── Autocomplete ─────────────────────────────────────────────────────────────
