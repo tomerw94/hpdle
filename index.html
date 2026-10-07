@@ -492,11 +492,11 @@
 </div>
 
 <div id="stage3">
-  <div class="stage2-header">
-    <h2>&#128172; Quote Challenge</h2>
-  </div>
-
   <div id="stage3-question">
+    <div class="stage2-header">
+      <h2>&#128172; Quote Challenge</h2>
+    </div>
+
     <blockquote class="stage3-quote" id="stage3-quote-text"></blockquote>
 
     <div id="stage3-speaker-step">
@@ -1661,7 +1661,7 @@ function setupAutocomplete({ inputEl, listEl, buttonEl, options, onSubmit }) {
     activeIdx = -1;
     const q = query.toLowerCase().trim();
     if (!q) { listEl.classList.remove('visible'); return; }
-    const hits = options.filter(n => n.toLowerCase().startsWith(q)).slice(0, 8);
+    const hits = options.filter(n => n.toLowerCase().includes(q)).slice(0, 8);
     if (!hits.length) { listEl.classList.remove('visible'); return; }
     hits.forEach(name => {
       const div = document.createElement('div');
@@ -1764,7 +1764,7 @@ function showDropdown(query) {
   activeIdx = -1;
   const q = query.toLowerCase().trim();
   if (!q) { list.classList.remove('visible'); return; }
-  const hits = available().filter(n => n.toLowerCase().startsWith(q)).slice(0, 8);
+  const hits = available().filter(n => n.toLowerCase().includes(q)).slice(0, 8);
   if (!hits.length) { list.classList.remove('visible'); return; }
   hits.forEach(name => {
     const div = document.createElement('div');
